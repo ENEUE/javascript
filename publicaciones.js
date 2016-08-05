@@ -108,7 +108,7 @@ var handler = StripeCheckout.configure({
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
-        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&libro=" + window.libro + "&curso=" + window.curso;
+        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&libro=" + window.libro + "&curso=" + window.curso + "&islive=" + token.livemode;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
             e: eQuery
@@ -146,6 +146,9 @@ var handler = StripeCheckout.configure({
                 window.beenShared = false;
                 $("#" + window.containerID).find(".perkCustomButton").html("Finalizar");
                 $("#" + window.containerID).find(".perkPostFlight").show();
+
+                //Call to mailchimper
+                mailChimper(resultJson);
             }
         });
     }
@@ -255,3 +258,21 @@ $("a[href^=#]").on("click", function(e) {
 $(".first-name").find("input").attr("placeholder", "Nombre");
 $(".last-name").find("input").attr("placeholder", "Apellidos");
 $(".form-item.field.email.required").find("input").attr("placeholder", "email");
+
+//*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
+
+function mailChimper(params) {
+    var redirectDomain = "https://script.google.com/macros/s/AKfycbwG-vdUup2QUNsU5uH4QjRN9PJyXriwLiXvrwS_YpMQqBY1-8VR/exec";
+    var Query = "email_address=" + params.eMail + "&localizer=" + params.localizer + "&amount=" + params.amount + "&perkID=" + params.perkID;
+    var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
+    var Query = {
+        e: eQuery
+    };
+    var request = $.ajax({
+        type: 'post',
+        url: redirectDomain,
+        jsonpCallback: 'updateMailChimp',
+        dataType: 'jsonp',
+        data: Query
+    });
+}
