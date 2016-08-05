@@ -261,7 +261,6 @@ function mailChimper(params) {
         type: 'post',
         url: redirectDomain,
         jsonpCallback: 'updateMailChimp',
-//        contentType: "application/json",
         dataType: 'jsonp',
         data: Query
     });
@@ -384,9 +383,7 @@ var handler = StripeCheckout.configure({
             data: Query
         });
         request.done(function(resultJson) {
-
             $("#" + window.containerID).find(".perkCustomDonationAmount").hide();
-
             var date = new Date();
             var n = date.toLocaleDateString();
             var t = date.toLocaleTimeString();
@@ -404,7 +401,6 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkEmailShow").html(window.eMail);
                 $("#" + window.containerID).find(".perkLocalizerShow").html(window.localizer);
                 $("#" + window.containerID).find(".perkDate").html(now);
-
                 window.perkTokenBeenCalled = false;
                 window.perkButtonEnd = true;
                 window.beenShared = false;
