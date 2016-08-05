@@ -70,147 +70,148 @@ $(document).ready(function() {
 
 //Ajax Success Main function
 
-$(document).ajaxSuccess(function(evnt, xhr, settings) {
-    //   console.log(settings);
-    //   console.log(evnt);
-    //   console.log(xhr);
-
-    if (settings.url == "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js") {
-        window.projectNeedsJson = JSON.parse(xhr.responseText);
-        //First Level
-        $.each(window.projectNeedsJson, function(key, data) {
-            //Second Level
-            $.each(data, function(index, data) {
-                //Checks data items and avoids summary
-                if (index != "totals") {
-                    //Check only data for minimum and efective budget
-                    if ((data.totals.min != 0) || (data.totals.efect != 0)) {
-                        var cList = $('.projectBudgetList');
-                        var divItem = $('<div/>')
-                            .addClass('ui-div-top-item projectBudgetBox')
-                            .appendTo(cList);
-                        var headerItem = $('<h4/>')
-                            .addClass('ui-h4-top-item')
-                            .text(data.desig)
-                            .appendTo(divItem);
-                        var totalsItem = $('<p/>')
-                            .addClass('ui-p-top-item-desc')
-                            .text(data.descriptor)
-                            .appendTo(divItem);
-                        var totalsItem = $('<p/>')
-                            .addClass('ui-p-top-item-cant')
-                            .text("€ " + (parseInt(data.totals.min) + parseInt(data.totals.efect)))
-                            .appendTo(divItem);
-                        //Third level
-                        $.each(data, function(keys, datae) {
-                            if ((keys != "totals") && (keys != "desig") && (keys != "descriptor")) {
-                                //Check only data for minimum and efective budget
-                                if ((datae.totals.min > 0) || (datae.totals.efect > 0)) {
-                                    var divSubItem = $('<div/>')
-                                        .addClass('ui-div-item')
-                                        .appendTo(divItem);
-                                    var headerSubItem = $('<h5/>')
-                                        .addClass('ui-h5-item')
-                                        .text(datae.desig)
-                                        .appendTo(divSubItem);
+function budgetSuccess(xhr) {
+    window.projectNeedsJson = JSON.parse(xhr.responseText);
+    //First Level
+    $.each(window.projectNeedsJson, function(key, data) {
+        //Second Level
+        $.each(data, function(index, data) {
+            //Checks data items and avoids summary
+            if (index != "totals") {
+                //Check only data for minimum and efective budget
+                if ((data.totals.min != 0) || (data.totals.efect != 0)) {
+                    var cList = $('.projectBudgetList');
+                    var divItem = $('<div/>')
+                        .addClass('ui-div-top-item projectBudgetBox')
+                        .appendTo(cList);
+                    var headerItem = $('<h4/>')
+                        .addClass('ui-h4-top-item')
+                        .text(data.desig)
+                        .appendTo(divItem);
+                    var totalsItem = $('<p/>')
+                        .addClass('ui-p-top-item-desc')
+                        .text(data.descriptor)
+                        .appendTo(divItem);
+                    var totalsItem = $('<p/>')
+                        .addClass('ui-p-top-item-cant')
+                        .text("€ " + (parseInt(data.totals.min) + parseInt(data.totals.efect)))
+                        .appendTo(divItem);
+                    //Third level
+                    $.each(data, function(keys, datae) {
+                        if ((keys != "totals") && (keys != "desig") && (keys != "descriptor")) {
+                            //Check only data for minimum and efective budget
+                            if ((datae.totals.min > 0) || (datae.totals.efect > 0)) {
+                                var divSubItem = $('<div/>')
+                                    .addClass('ui-div-item')
+                                    .appendTo(divItem);
+                                var headerSubItem = $('<h5/>')
+                                    .addClass('ui-h5-item')
+                                    .text(datae.desig)
+                                    .appendTo(divSubItem);
+                                var totalsSubItem = $('<p/>')
+                                    .addClass('ui-p-item-desc')
+                                    .text(datae.descriptor)
+                                    .appendTo(divSubItem);
+                                if ((datae.totals.min != 0) && (datae.totals.efect != 0)) {
                                     var totalsSubItem = $('<p/>')
-                                        .addClass('ui-p-item-desc')
-                                        .text(datae.descriptor)
+                                        .addClass('ui-p-item-cant')
+                                        .text("€ " + (parseInt(datae.totals.efect) + parseInt(datae.totals.min)))
                                         .appendTo(divSubItem);
-                                    if ((datae.totals.min != 0) && (datae.totals.efect != 0)) {
-                                        var totalsSubItem = $('<p/>')
-                                            .addClass('ui-p-item-cant')
-                                            .text("€ " + (parseInt(datae.totals.efect) + parseInt(datae.totals.min)))
-                                            .appendTo(divSubItem);
-                                    } else if (datae.totals.efect != 0) {
-                                        var totalsSubItem = $('<p/>')
-                                            .addClass('ui-p-item-cant')
-                                            .text("€ " + datae.totals.efect)
-                                            .appendTo(divSubItem);
-                                    } else {
-                                        var totalsSubItem = $('<p/>')
-                                            .addClass('ui-p-item-cant')
-                                            .text("€ " + datae.totals.min)
-                                            .appendTo(divSubItem);
-                                    }
-                                    //Fourth Level
-                                    $.each(datae, function(keyser, dataes) {
-                                        if ((keyser != "totals") && (keyser != "desig") && (keyser != "descriptor") && (keyser != "cant") && (keyser != "uds") && (keyser != "precio")) {
-                                            if ((dataes.totals.min > 0) || (dataes.totals.efect > 0)) {
-                                                console.log("Index:   " + keyser);
-                                                console.log("min:   " + dataes.totals.min);
-                                                console.log("efect:   " + dataes.totals.efect);
-                                                var divSubSubItem = $('<div/>')
-                                                    .addClass('ui-div-sub-item')
-                                                    .appendTo(divSubItem);
-                                                var headerSubSubItem = $('<h5/>')
-                                                    .addClass('ui-h5-sub-item')
-                                                    .text(dataes.desig)
-                                                    .appendTo(divSubSubItem);
+                                } else if (datae.totals.efect != 0) {
+                                    var totalsSubItem = $('<p/>')
+                                        .addClass('ui-p-item-cant')
+                                        .text("€ " + datae.totals.efect)
+                                        .appendTo(divSubItem);
+                                } else {
+                                    var totalsSubItem = $('<p/>')
+                                        .addClass('ui-p-item-cant')
+                                        .text("€ " + datae.totals.min)
+                                        .appendTo(divSubItem);
+                                }
+                                //Fourth Level
+                                $.each(datae, function(keyser, dataes) {
+                                    if ((keyser != "totals") && (keyser != "desig") && (keyser != "descriptor") && (keyser != "cant") && (keyser != "uds") && (keyser != "precio")) {
+                                        if ((dataes.totals.min > 0) || (dataes.totals.efect > 0)) {
+                                            var divSubSubItem = $('<div/>')
+                                                .addClass('ui-div-sub-item')
+                                                .appendTo(divSubItem);
+                                            var headerSubSubItem = $('<h5/>')
+                                                .addClass('ui-h5-sub-item')
+                                                .text(dataes.desig)
+                                                .appendTo(divSubSubItem);
+                                            var totalsSubSubItem = $('<p/>')
+                                                .addClass('ui-p-sub-item-desc')
+                                                .text(dataes.descriptor)
+                                                .appendTo(divSubSubItem);
+                                            if (dataes.totals.min > 0) {
                                                 var totalsSubSubItem = $('<p/>')
-                                                    .addClass('ui-p-sub-item-desc')
-                                                    .text(dataes.descriptor)
+                                                    .addClass('ui-p-sub-item-cant')
+                                                    .text("€ " + dataes.totals.min)
                                                     .appendTo(divSubSubItem);
-                                                if (dataes.totals.min > 0) {
-                                                    var totalsSubSubItem = $('<p/>')
-                                                        .addClass('ui-p-sub-item-cant')
-                                                        .text("€ " + dataes.totals.min)
-                                                        .appendTo(divSubSubItem);
 
-                                                } else {
-                                                    var totalsSubSubItem = $('<p/>')
-                                                        .addClass('ui-p-sub-item-cant ui-p-red')
-                                                        .text("€ " + dataes.totals.efect)
-                                                        .appendTo(divSubSubItem);
-                                                }
+                                            } else {
+                                                var totalsSubSubItem = $('<p/>')
+                                                    .addClass('ui-p-sub-item-cant ui-p-red')
+                                                    .text("€ " + dataes.totals.efect)
+                                                    .appendTo(divSubSubItem);
                                             }
                                         }
-                                    })
-                                }
+                                    }
+                                })
                             }
-                        })
+                        }
+                    })
 
-                    }
                 }
-            })
-            var cList = $('.projectBudgetListTotals');
-
-            var divItem = $('<div/>')
-                .addClass('ui-div-item')
-                .appendTo(cList);
-            var headerItem = $('<h4/>')
-                .addClass('ui-header-item-sub')
-                .text('Subtotal:')
-                .appendTo(divItem);
-            var totalsItem = $('<p/>')
-                .addClass('ui-paragraph-item-sub')
-                .text("€ " + (Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))))
-                .appendTo(divItem);
-            divItem = $('<div/>')
-                .addClass('ui-div-item')
-                .appendTo(cList);
-            headerItem = $('<h4/>')
-                .addClass('ui-header-item-pre')
-                .text('Fondo de contingencia (1%):')
-                .appendTo(divItem);
-            totalsItem = $('<p/>')
-                .addClass('ui-paragraph-item-pre')
-                .text("€ " + Math.round((Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))) * 0.01))
-                .appendTo(divItem);
-            divItem = $('<div/>')
-                .addClass('ui-div-item')
-                .appendTo(cList);
-            headerItem = $('<h4/>')
-                .addClass('ui-header-item')
-                .text('Total:')
-                .appendTo(divItem);
-            totalsItem = $('<p/>')
-                .addClass('ui-paragraph-item')
-                .text("€ " + Math.round((Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))) * 1.01))
-                .appendTo(divItem);
+            }
         })
+        var cList = $('.projectBudgetListTotals');
+
+        var divItem = $('<div/>')
+            .addClass('ui-div-item')
+            .appendTo(cList);
+        var headerItem = $('<h4/>')
+            .addClass('ui-header-item-sub')
+            .text('Subtotal:')
+            .appendTo(divItem);
+        var totalsItem = $('<p/>')
+            .addClass('ui-paragraph-item-sub')
+            .text("€ " + (Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))))
+            .appendTo(divItem);
+        divItem = $('<div/>')
+            .addClass('ui-div-item')
+            .appendTo(cList);
+        headerItem = $('<h4/>')
+            .addClass('ui-header-item-pre')
+            .text('Fondo de contingencia (1%):')
+            .appendTo(divItem);
+        totalsItem = $('<p/>')
+            .addClass('ui-paragraph-item-pre')
+            .text("€ " + Math.round((Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))) * 0.01))
+            .appendTo(divItem);
+        divItem = $('<div/>')
+            .addClass('ui-div-item')
+            .appendTo(cList);
+        headerItem = $('<h4/>')
+            .addClass('ui-header-item')
+            .text('Total:')
+            .appendTo(divItem);
+        totalsItem = $('<p/>')
+            .addClass('ui-paragraph-item')
+            .text("€ " + Math.round((Math.round(parseInt(data.totals.min)) + Math.round(parseInt(data.totals.efect))) * 1.01))
+            .appendTo(divItem);
+    })
+}
+
+
+$(document).ajaxSuccess(function(evnt, xhr, settings) {
+    //Discriminate different options
+
+
+    if (settings.url == "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js") {
+        budgetSuccess(xhr);
+
     } else {
-        //    if(settings.url == "https://spreadsheets.google.com/feeds/list/1EFRGuZ…DTICMjXBH_2FSGmWIKsP7kg/od6/public/basic?alt=json"){
         window.statsLoaded = true;
         //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
         showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
@@ -246,7 +247,10 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
 
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
+function mailChimper() {
 
+
+}
 //*************************************************************CUSTOM FUNCTIONS CROWDFUNDING MAIN*********************************************
 
 $("#cfTabsContainer1").tabs({
@@ -391,6 +395,8 @@ var handler = StripeCheckout.configure({
                 window.beenShared = false;
                 $("#" + window.containerID).find(".perkCustomButton").html("Finalizar");
                 $("#" + window.containerID).find(".perkPostFlight").show();
+
+                //Call to mailchimper
 
             }
         });
