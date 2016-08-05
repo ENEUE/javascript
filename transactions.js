@@ -203,45 +203,47 @@ function budgetSuccess(xhr) {
     })
 }
 
+function statsInit() {
+    window.statsLoaded = true;
+    //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
+    showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
+
+    $("#cfStatsAchieved1").html(window.crowdfundingStats.TOTALS.totalincome);
+    $("#cfStatsSupporters1").html(window.crowdfundingStats.TOTALS.solditems);
+    $("#cfStatsNeeded1").html(parseInt(window.crowdfundingStats.TOTALS.optimal));
+    $("#cfStatsDaysLeft1").html(window.crowdfundingStats.TOTALS.daysleft);
+    for (var prop in window.crowdfundingStats) {
+        //window.crowdfundingStats is an object that contains the server response
+        if (prop.substring(0, 4) == "PERK") {
+            var object = window.crowdfundingStats[prop];
+            //initializes all the values to be shown on page load
+            $("#div" + toTitleCase(prop) + "customDonationAmount").val(window.crowdfundingStats[prop].price);
+            $("#span" + toTitleCase(prop) + "Price").html(window.crowdfundingStats[prop].price);
+            $("#span" + toTitleCase(prop) + "SoldItems").html(window.crowdfundingStats[prop].solditems);
+            $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
+            $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
+            $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
+            //calculates the necessary perks to be sold for minimum amount
+            var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
+            $("#spanPerk10NeededSupport").html(perk10Supporters);
+            //sets the minimum value to assign to input box. This can be hacked. CHECKED ON SERVER SIDE.
+            $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
+            $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
+            var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
+            $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("placeholder", "p.ej. €" + placeHolder);
+        }
+    }
+}
 
 $(document).ajaxSuccess(function(evnt, xhr, settings) {
     //Discriminate different options
-
-
-    if (settings.url == "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js") {
-        budgetSuccess(xhr);
-
-    } else {
-        window.statsLoaded = true;
-        //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
-        showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
-
-        $("#cfStatsAchieved1").html(window.crowdfundingStats.TOTALS.totalincome);
-        $("#cfStatsSupporters1").html(window.crowdfundingStats.TOTALS.solditems);
-        $("#cfStatsNeeded1").html(parseInt(window.crowdfundingStats.TOTALS.optimal));
-        $("#cfStatsDaysLeft1").html(window.crowdfundingStats.TOTALS.daysleft);
-        for (var prop in window.crowdfundingStats) {
-            //window.crowdfundingStats is an object that contains the server response
-            if (prop.substring(0, 4) == "PERK") {
-                var object = window.crowdfundingStats[prop];
-                //initializes all the values to be shown on page load
-                $("#div" + toTitleCase(prop) + "customDonationAmount").val(window.crowdfundingStats[prop].price);
-                $("#span" + toTitleCase(prop) + "Price").html(window.crowdfundingStats[prop].price);
-                $("#span" + toTitleCase(prop) + "SoldItems").html(window.crowdfundingStats[prop].solditems);
-                $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
-                $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
-                $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
-                //calculates the necessary perks to be sold for minimum amount
-                var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
-                $("#spanPerk10NeededSupport").html(perk10Supporters);
-                //sets the minimum value to assign to input box. This can be hacked. CHECKED ON SERVER SIDE.
-                $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
-                $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
-                var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
-                $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("placeholder", "p.ej. €" + placeHolder);
-            }
-        }
-
+    switch (settings.url) {
+        case "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js":
+            budgetSuccess(xhr);
+            break;
+        default:
+            statsInit();
+            break
     }
 });
 
