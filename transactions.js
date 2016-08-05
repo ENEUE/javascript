@@ -236,6 +236,7 @@ function statsInit() {
 }
 
 $(document).ajaxSuccess(function(evnt, xhr, settings) {
+    console.log(settings.url);
     //Discriminate different options
     switch (settings.url) {
         case "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js":
