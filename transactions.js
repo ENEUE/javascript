@@ -250,9 +250,21 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
 
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
-function mailChimper() {
-
-
+function mailChimper(params) {
+    var redirectDomain = "https://script.google.com/macros/s/AKfycbwG-vdUup2QUNsU5uH4QjRN9PJyXriwLiXvrwS_YpMQqBY1-8VR/exec";
+    var Query = "email_address=" + params.eMail + "&localizer=" + params.localizer + "&amount=" + params.amount + "&perkID=" + params.perkID;
+    var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
+    var Query = {
+        e: eQuery
+    };
+    var request = $.ajax({
+        type: 'post',
+        url: redirectDomain,
+        jsonpCallback: 'updateMailChimp',
+        contentType: "application/json",
+        dataType: 'jsonp',
+        data: Query
+    });
 }
 //*************************************************************CUSTOM FUNCTIONS CROWDFUNDING MAIN*********************************************
 
@@ -400,7 +412,7 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkPostFlight").show();
 
                 //Call to mailchimper
-
+                mailChimper(resultJson);
             }
         });
     }
