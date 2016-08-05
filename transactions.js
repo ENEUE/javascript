@@ -261,7 +261,7 @@ function mailChimper(params) {
         type: 'post',
         url: redirectDomain,
         jsonpCallback: 'updateMailChimp',
-        contentType: "application/json",
+//        contentType: "application/json",
         dataType: 'jsonp',
         data: Query
     });
