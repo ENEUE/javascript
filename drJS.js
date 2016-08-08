@@ -46,8 +46,7 @@ var handler = StripeCheckout.configure({
     locale: 'auto',
     currency: "EUR",
     panelLabel: "Dona {{amount}}",
-    allowRememberMe: "false",
-    receipt_email: window.eneueSupporterEmail,
+    allowRememberMe: false,
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&localizer=" + window.eneueTransactionLocalizer + "&islive=" + token.livemode;
