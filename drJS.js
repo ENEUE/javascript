@@ -237,7 +237,6 @@ function mailChimper(params) {
 
 //Creates a DOM object from an array of objects @perksJson [{delivery=xxx, perkAmount=n, description=abc, perkID=abc, soldItems=n, perkTitle=zzz},...]
 function generatePerks(perksJson, classDef) {
-  console.log(perksJson);
     //Check perksJson is not an empty array
     if (perksJson.length > 0) {
         $(classDef).html('<br>');
@@ -368,12 +367,10 @@ function generatePerks(perksJson, classDef) {
             .appendTo(strong);
         //Update the json object with @perkCFValues   
         for (var i = perksJson.length  - 1; i >= 0; i--) {
-          console.log(i + "  :  " + perksJson.length);
             //Gets the extra values for each perk
             var perkCFvalue = filterById(perkCFValues, {
                 perkID: perksJson[i].perkID
             });
-            console.log(perkCFvalue);
             //Extract number of perk
             var perkID = perksJson[i].perkID;
             var perkIDNumber = perkID.replace("PERK", "");
