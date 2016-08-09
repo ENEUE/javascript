@@ -41,7 +41,7 @@ $(document).on("DOMNodeRemoved", ".stripe_checkout_app", close);
 
 //Stripe declaration
 var handler = StripeCheckout.configure({
-    key: 'pk_test_AfqpiD3DBLtXD8u39JwGErf8',
+    key: 'pk_live_uWo17rHYl0BXyyKmoMtHM3aS',
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
     currency: "EUR",
