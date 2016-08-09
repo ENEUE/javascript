@@ -366,7 +366,7 @@ function generatePerks(perksJson, classDef) {
             .addClass('perkLocalizerShow')
             .appendTo(strong);
         //Update the json object with @perkCFValues   
-        for (var i = 0; i < perksJson.length; i++) {
+        for (var i = perksJson.length  - 1; i >= 0; i--) {
             //Gets the extra values for each perk
             var perkCFvalue = filterById(perkCFValues, {
                 perkID: perksJson[i].perkID
