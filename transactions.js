@@ -359,7 +359,7 @@ function closeWaitDiv(id) {
 
 //Declares the Stripe Checkout Handler and configures it
 var handler = StripeCheckout.configure({
-    key: 'pk_live_uWo17rHYl0BXyyKmoMtHM3aS',
+    key: 'pk_test_AfqpiD3DBLtXD8u39JwGErf8',
     //***************************************************************IMPORTANT!!!!!!!------CHECK IMAGE STORAGE AND PARAMETERS FOR CHECKOUT**********
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
