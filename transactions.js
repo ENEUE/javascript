@@ -3,9 +3,8 @@
 *
 Rawgit resources:
 
- Production: https://cdn.rawgit.com/ENEUE/javascript/master/transactions.js
- Development: https://rawgit.com/ENEUE/javascript/master/transactions.js
-
+ Production: https://cdn.rawgit.com/ENEUE/javascript/campaign/transactions.min.js
+ Development: https://rawgit.com/ENEUE/javascript/campaign/transactions.min.js
 */
 
 
