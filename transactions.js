@@ -224,8 +224,8 @@ function statsInit() {
             $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
             $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
             //calculates the necessary perks to be sold for minimum amount
-            var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
-            $("#spanPerk10NeededSupport").html(perk10Supporters);
+            //var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
+            //$("#spanPerk10NeededSupport").html(perk10Supporters);
             //sets the minimum value to assign to input box. This can be hacked. CHECKED ON SERVER SIDE.
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
