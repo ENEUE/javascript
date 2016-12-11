@@ -359,7 +359,7 @@ function closeWaitDiv(id) {
 
 //Declares the Stripe Checkout Handler and configures it
 var handler = StripeCheckout.configure({
-    key: 'pk_live_uWo17rHYl0BXyyKmoMtHM3aS',
+    key: 'pk_test_AfqpiD3DBLtXD8u39JwGErf8',
     //***************************************************************IMPORTANT!!!!!!!------CHECK IMAGE STORAGE AND PARAMETERS FOR CHECKOUT**********
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
@@ -368,7 +368,7 @@ var handler = StripeCheckout.configure({
     allowRememberMe: "false",
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
-        var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
+        var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
         var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&libro=" + window.libro + "&curso=" + window.curso + "&islive=" + token.livemode;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
