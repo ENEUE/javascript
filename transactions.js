@@ -386,7 +386,7 @@ $("#cfFAQs1").accordion({
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
 
 //Sets the minimum for each perk to fit with special delivery options
-$("#" + window.containerID).find("input[name=certified]").change(function(){
+$(".specialDelivery").find("input[name=certified]").change(function(){
     if(this.checked){
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", 100);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
