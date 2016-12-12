@@ -630,7 +630,7 @@ function perkBlocksReset(id) {
     $("#" + id).find(".perkCustomDonationAmount").hide();
     $("#" + id).find(".perkPreFlight").hide();
     $("#" + id).find(".perkPostFlight").hide();
-    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle) {
+    if ((parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle)&&raffleInProgress) {
         $("#" + id).find(".perkSocial").show();
     } else {
         $("#" + id).find(".perkSocial").hide();
