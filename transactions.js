@@ -389,7 +389,9 @@ $("#cfFAQs1").accordion({
 $(".specialDelivery").find("input[name=certified]").change(function() {
     if (this.checked) {
         var min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
+        console.log(min);
         min = min + parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
+        console.log(min);
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
