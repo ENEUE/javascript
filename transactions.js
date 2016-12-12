@@ -327,12 +327,12 @@ function hasBeenShared(response, ID) {
         $("#" + raffleID).show();
         if (window.amount >= minAmountRaffle) {
             window.beenShared = true;
-            $("#" + raffleID).find(".perkCheckBox").each(function() {
+            /*$("#" + raffleID).find(".perkCheckBox").each(function() {
                 $(this).prop("checked", true)
             });
             $("#" + raffleID).find(".perkCheckBox").each(function() {
                 $(this).attr("disabled", false)
-            });
+            });*/
         }
     } else {
         $("#" + perkNetworksID).hide();
@@ -473,7 +473,7 @@ var handler = StripeCheckout.configure({
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
-        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&libro=" + window.libro + "&curso=" + window.curso + "&islive=" + token.livemode;
+        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared  + "&islive=" + token.livemode;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
             e: eQuery
@@ -521,12 +521,12 @@ var handler = StripeCheckout.configure({
                 window.beenShared = false;
                 $("#" + window.containerID).find(".perkCustomButton").html("Finalizar");
                 $("#" + window.containerID).find(".perkPostFlight").show();
-                $("#" + window.containerID).find(".perkCheckBox").each(function() {
+                /*$("#" + window.containerID).find(".perkCheckBox").each(function() {
                     $(this).prop("checked", false)
-                });
-                $("#" + window.containerID).find(".perkCheckBox").each(function() {
+                });*/
+                /*$("#" + window.containerID).find(".perkCheckBox").each(function() {
                     $(this).attr("disabled", true)
-                });
+                });*/
 
 
                 //Call to mailchimper
@@ -539,10 +539,10 @@ var handler = StripeCheckout.configure({
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
     $("#" + window.containerID).find(".perkSocial").hide();
-    var checkBoxes = $("#" + containerID).find(".perkCheckBox");
+    //var checkBoxes = $("#" + containerID).find(".perkCheckBox");
     //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
-    var libroID = checkBoxes[0].id;
-    var cursoID = checkBoxes[1].id;
+    //var libroID = checkBoxes[0].id;
+    //var cursoID = checkBoxes[1].id;
     //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
     var inputBoxMin = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
@@ -552,8 +552,8 @@ $(".perkCustomButton").click(function(e) {
     }
 
     if (window.perkButtonEnd == false) {
-        window.libro = $("#" + libroID).is(":checked");
-        window.curso = $("#" + cursoID).is(":checked");
+        //window.libro = $("#" + libroID).is(":checked");
+        //window.curso = $("#" + cursoID).is(":checked");
         window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val();
         window.amountCents = window.amount * 100;
         window.perkCode = $("#" + window.containerID).attr("name");
@@ -578,12 +578,12 @@ $(".perkSelect").click(function() {
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
-    $("#" + window.containerID).find(".perkCheckBox").each(function() {
-        $(this).prop("checked", false)
-    });
-    $("#" + window.containerID).find(".perkCheckBox").each(function() {
-        $(this).attr("disabled", true)
-    });
+    //$("#" + window.containerID).find(".perkCheckBox").each(function() {
+    //    $(this).prop("checked", false)
+    //});
+    //$("#" + window.containerID).find(".perkCheckBox").each(function() {
+    //    $(this).attr("disabled", true)
+    //});
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
