@@ -383,6 +383,18 @@ $("#cfFAQs1").accordion({
 
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
 
+//Sets the minimum for each perk to fit with special delivery options
+$("#" + window.containerID).find("input[name=certified]").change(function(){
+    if(this.checked){
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", 100);
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
+    } else {
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
+
+    }
+
+})
+
 //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
@@ -539,12 +551,10 @@ $(".perkCustomButton").click(function(e) {
     window.certifiedAmount = 0;
     $("#" + window.containerID).find(".perkSocial").hide();
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
-    //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
     var urgentCheckbox = checkBoxes.find("input[name=urgent]");
-    //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
-    var inputBoxMin = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
+    var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
 
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         $("#" + inputBoxId).val(inputBoxMin);
@@ -560,7 +570,7 @@ $(".perkCustomButton").click(function(e) {
         if (window.isUrgent) {
             window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10) - window.certifiedAmount;
         }
-        window.amount = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount + window.urgentAmount;
+        window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount + window.urgentAmount;
         window.amountCents = window.amount * 100;
 
         handler.open({
