@@ -386,12 +386,16 @@ $("#cfFAQs1").accordion({
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
 
 //Sets the minimum for each perk to fit with special delivery options
-$(".specialDelivery").find("input[name=certified]").change(function() {
+$(".specialDelivery").find("input").change(function() {
+    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;})
+    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;})
     var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-    if (this.checked) {
+    if (certifiedHandle.checked) {
         min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
-    } else {
+    } else if (){
+        
+    }else {
         min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
@@ -400,6 +404,19 @@ $(".specialDelivery").find("input[name=certified]").change(function() {
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
 })
 
+
+$(".specialDelivery").find("input[name=urgent]").change(function() {
+    var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+    if (this.checked) {
+        min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.urgentAmount;
+    } else {
+        min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
+        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
+    }
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
+})
 //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
