@@ -392,6 +392,8 @@ $(".specialDelivery").find("input[name=certified]").change(function() {
         min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
     } else {
+        min = parseFloat(window.crowdfundingStats[window.perkCode].amount, 10);
+        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
