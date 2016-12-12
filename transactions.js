@@ -12,6 +12,8 @@ Rawgit resources:
 
 //Minumum amount to participate in Raffle
 var minAmountRaffle = 45;
+//flag to allow for raffle. Set to false to end raffle.
+var raffleInProgress = true;
 
 function youTubeResize(idFrame, widthContainer) {
     $("#" + idFrame).width(widthContainer);
@@ -249,103 +251,105 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
             break
     }
 });
-
 //****************************************************SOCIAL SHARING INITIALIZATION************************************************************
 
 //TWITTER**************************************************************************************************************************************
-window.twttr = (function(d, s, id) {
-    var js,
-        fjs = d.getElementsByTagName(s)[0],
-        t = window.twttr || {};
-    if (d.getElementById(id))
-        return t;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "https://platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-    t._e = [];
-    t.ready = function(f) {
-        t._e.push(f);
-    };
-    return t;
-}(document, "script", "twitter-wjs"));
+if (raffleInProgress) {
 
-twttr.ready(function(twttr) {
-    twttr.events.bind('tweet', function(event) {
-        var ID = event.target.parentElement.id;
-        //Callback checks if content has been shared
-        hasBeenShared(true, ID);
-    });
-});
-
-//FACEBOOK**************************************************************************************************************************************
-window.fbAsyncInit = function() {
-    FB.init({
-        appId: "994194617270624",
-        xfbml: true,
-        version: "v2.4"
-    });
-};
-(function(d, s, id) {
-    var js,
-        fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) {
-        return;
-    }
-    js = d.createElement(s);
-    js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-//*************************************************************CUSTOM FUNCTIONS SOCIAL NETWORKS**************************************************
-function facebookShare(obj) {
-    var parentID = obj.id;
-    FB.ui({
-        //*****************************************************CHECK TEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!*********************************************
-        method: 'feed',
-        link: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
-        caption: 'Gracias por compartir este vídeo',
-        picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
-        source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
-        description: 'Un día soñamos con una escuela diferente: una escuela en la que aprendizaje y placer fueran de la mano. Una escuela más humana, activa y transformadora. Y fuimos a buscarla. Te invitamos a acompañarnos en un viaje apasionante descubriendo lugares y personas que están revolucionando, entre otras cosas, lo que entendemos por educación.'
-    }, (function(parentID) {
-        return function(response) {
-            hasBeenShared(response, parentID);
+    window.twttr = (function(d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+        if (d.getElementById(id))
+            return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        t._e = [];
+        t.ready = function(f) {
+            t._e.push(f);
         };
-    })(parentID));
-}
+        return t;
+    }(document, "script", "twitter-wjs"));
 
-//Unveils the raffle selection div and allows selection of raffle items
-function hasBeenShared(response, ID) {
-    var perkSocialID = $("#" + ID).closest(".perkSocial").attr("id");
-    var raffleID = $("#" + perkSocialID).siblings(".perkRaffle").attr("id");
-    var perkNetworksID = $("#" + ID).closest(".perkNetworks").attr("id");
-    var perkErrorID = $("#" + perkNetworksID).siblings(".perkNetError").attr("id");
-    if (response) {
-        $("#" + perkSocialID).hide();
-        $("#" + raffleID).show();
-        if (window.amount >= minAmountRaffle) {
-            window.beenShared = true;
-            /*$("#" + raffleID).find(".perkCheckBox").each(function() {
-                $(this).prop("checked", true)
-            });
-            $("#" + raffleID).find(".perkCheckBox").each(function() {
-                $(this).attr("disabled", false)
-            });*/
+    twttr.ready(function(twttr) {
+        twttr.events.bind('tweet', function(event) {
+            var ID = event.target.parentElement.id;
+            //Callback checks if content has been shared
+            hasBeenShared(true, ID);
+        });
+    });
+
+    //FACEBOOK**************************************************************************************************************************************
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: "994194617270624",
+            xfbml: true,
+            version: "v2.4"
+        });
+    };
+    (function(d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
         }
-    } else {
-        $("#" + perkNetworksID).hide();
-        $("#" + perkErrorID).show();
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    //*************************************************************CUSTOM FUNCTIONS SOCIAL NETWORKS**************************************************
+    function facebookShare(obj) {
+        var parentID = obj.id;
+        FB.ui({
+            //*****************************************************CHECK TEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!*********************************************
+            method: 'feed',
+            link: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
+            caption: 'Gracias por compartir este vídeo',
+            picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
+            source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
+            description: 'Un día soñamos con una escuela diferente: una escuela en la que aprendizaje y placer fueran de la mano. Una escuela más humana, activa y transformadora. Y fuimos a buscarla. Te invitamos a acompañarnos en un viaje apasionante descubriendo lugares y personas que están revolucionando, entre otras cosas, lo que entendemos por educación.'
+        }, (function(parentID) {
+            return function(response) {
+                hasBeenShared(response, parentID);
+            };
+        })(parentID));
     }
+
+    //Unveils the raffle selection div and allows selection of raffle items
+    function hasBeenShared(response, ID) {
+        var perkSocialID = $("#" + ID).closest(".perkSocial").attr("id");
+        var raffleID = $("#" + perkSocialID).siblings(".perkRaffle").attr("id");
+        var perkNetworksID = $("#" + ID).closest(".perkNetworks").attr("id");
+        var perkErrorID = $("#" + perkNetworksID).siblings(".perkNetError").attr("id");
+        if (response) {
+            $("#" + perkSocialID).hide();
+            $("#" + raffleID).show();
+            if (window.amount >= minAmountRaffle) {
+                window.beenShared = true;
+                /*$("#" + raffleID).find(".perkCheckBox").each(function() {
+                    $(this).prop("checked", true)
+                });
+                $("#" + raffleID).find(".perkCheckBox").each(function() {
+                    $(this).attr("disabled", false)
+                });*/
+            }
+        } else {
+            $("#" + perkNetworksID).hide();
+            $("#" + perkErrorID).show();
+        }
+    }
+
+    //On clicking facebook div display sharing window and trigger callback function
+    $(".perkFacebook").on("click", function() {
+        facebookShare(this);
+    });
+
+
 }
-
-//On clicking facebook div display sharing window and trigger callback function
-$(".perkFacebook").on("click", function() {
-    facebookShare(this);
-});
-
-
 
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
@@ -473,7 +477,7 @@ var handler = StripeCheckout.configure({
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
-        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared  + "&islive=" + token.livemode;
+        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
             e: eQuery
