@@ -387,18 +387,15 @@ $("#cfFAQs1").accordion({
 
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input[name=certified]").change(function() {
+    var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
     if (this.checked) {
-        var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
-        console.log(min);
-        min = min + parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
-        console.log(min);
-        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
+        min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
     } else {
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
-
     }
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
 })
 
 //Capitalizes first letter, lower case the rest
