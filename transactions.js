@@ -64,6 +64,8 @@ $(document).ready(function() {
     window.perkToggleState = null;
     window.libro = false;
     window.curso = false;
+    //Minumum amount to participate in Raffle
+    var minAmountRaffle = 45;
     $(".perkSocial").hide();
 });
 
@@ -322,7 +324,7 @@ function hasBeenShared(response, ID) {
     if (response) {
         $("#" + perkSocialID).hide();
         $("#" + raffleID).show();
-        if (window.amount >= 45) {
+        if (window.amount >= minAmountRaffle) {
             window.beenShared = true;
             $("#" + raffleID).find(".perkCheckBox").each(function() {
                 $(this).prop("checked", true)
@@ -584,7 +586,7 @@ $(".perkSelect").click(function() {
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
-        if (parseInt(amount, 10) >= 45) {
+        if (parseInt(amount, 10) >= minAmountRaffle) {
             $("#" + window.containerID).find(".perkSocial").show();
         } else {
             $("#" + window.containerID).find(".perkSocial").hide();
@@ -593,7 +595,7 @@ $(".perkSelect").click(function() {
     });
 
     window.amount = $(this).siblings(".perkSend").find(".perkCustomDonationAmount").val();
-    if (parseInt(window.amount, 10) >= 45) {
+    if (parseInt(window.amount, 10) >= minAmountRaffle) {
         $("#" + window.containerID).find(".perkSocial").show();
     }
     $("#" + window.containerID).find(".perkToggle").css("pointer-events", "auto");
@@ -630,7 +632,7 @@ function perkBlocksReset(id) {
     $("#" + id).find(".perkCustomDonationAmount").hide();
     $("#" + id).find(".perkPreFlight").hide();
     $("#" + id).find(".perkPostFlight").hide();
-    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= 45) {
+    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle) {
         $("#" + id).find(".perkSocial").show();
     } else {
         $("#" + id).find(".perkSocial").hide();
