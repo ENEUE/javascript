@@ -555,10 +555,10 @@ $(".perkCustomButton").click(function(e) {
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
         if (window.isCertified) {
-            window.certifiedAmount = window.crowdfundingStats[window.perkCode].certified;
+            window.certifiedAmount = parseInt(window.crowdfundingStats[window.perkCode].certified, 10);
         }
         if (window.isUrgent) {
-            window.urgentAmount = window.crowdfundingStats[window.perkCode].urgent - window.certifiedAmount;
+            window.urgentAmount = parseInt(window.crowdfundingStats[window.perkCode].urgent, 10) - window.certifiedAmount;
         }
         window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val() + window.certifiedAmount + window.urgentAmount;
         window.amountCents = window.amount * 100;
