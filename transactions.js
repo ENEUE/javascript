@@ -250,10 +250,10 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
 //****************************************************SOCIAL SHARING INITIALIZATION************************************************************
 
 //TWITTER**************************************************************************************************************************************
-window.twttr = ( function(d, s, id) {
+window.twttr = (function(d, s, id) {
     var js,
-    fjs = d.getElementsByTagName(s)[0],
-    t = window.twttr || {};
+        fjs = d.getElementsByTagName(s)[0],
+        t = window.twttr || {};
     if (d.getElementById(id))
         return t;
     js = d.createElement(s);
@@ -278,14 +278,14 @@ twttr.ready(function(twttr) {
 //FACEBOOK**************************************************************************************************************************************
 window.fbAsyncInit = function() {
     FB.init({
-        appId : "994194617270624",
-        xfbml : true,
-        version : "v2.4"
+        appId: "994194617270624",
+        xfbml: true,
+        version: "v2.4"
     });
 };
-( function(d, s, id) {
+(function(d, s, id) {
     var js,
-    fjs = d.getElementsByTagName(s)[0];
+        fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {
         return;
     }
@@ -300,9 +300,9 @@ function facebookShare(obj) {
     var parentID = obj.id;
     FB.ui({
         //*****************************************************CHECK TEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!*********************************************
-        method : 'feed',
-        link : 'http://vimeo.com/user25782127/transformemos-la-escuela/',
-        caption : 'Gracias por compartir este vídeo',
+        method: 'feed',
+        link: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
+        caption: 'Gracias por compartir este vídeo',
         picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
         source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
         description: 'Un día soñamos con una escuela diferente: una escuela en la que aprendizaje y placer fueran de la mano. Una escuela más humana, activa y transformadora. Y fuimos a buscarla. Te invitamos a acompañarnos en un viaje apasionante descubriendo lugares y personas que están revolucionando, entre otras cosas, lo que entendemos por educación.'
@@ -445,6 +445,11 @@ $(".perkDesc .perkToggle span").on("click", function() {
 
 });
 
+//Displays again social sharing block
+$(".divPerkErrorTry").click(function() {
+    $(this).parent().hide();
+    $(this).parent().siblings(".perkNetworks").show();
+});
 
 //Closes spinner while waiting stripe charge information
 function closeWaitDiv(id) {
@@ -461,7 +466,7 @@ var handler = StripeCheckout.configure({
     locale: 'auto',
     currency: "EUR",
     panelLabel: "Dona {{amount}}",
-    allowRememberMe: "false",
+    allowRememberMe: false,
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
@@ -479,7 +484,9 @@ var handler = StripeCheckout.configure({
             data: Query
         });
         request.done(function(resultJson) {
+            $("#" + window.containerID).find(".perkRaffle").hide(); //Social Sharing and Raffle
             $("#" + window.containerID).find(".perkCustomDonationAmount").hide();
+            $("#" + window.containerID).find(".perkPreFlight").hide();
             var date = new Date();
             var n = date.toLocaleDateString();
             var t = date.toLocaleTimeString();
@@ -497,11 +504,27 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkEmailShow").html(window.eMail);
                 $("#" + window.containerID).find(".perkLocalizerShow").html(window.localizer);
                 $("#" + window.containerID).find(".perkDate").html(now);
+                var chain = "<br>No has concursado en la rifa";
+                if (resultJson.numRaffle2) {
+                    var chain = "<br>" + resultJson.numRaffle + "<br>" + resultJson.numRaffle2;
+                } else if (resultJson.numRaffle) {
+                    chain = "<br>" + resultJson.numRaffle;
+                }
+                $("#" + window.containerID).find(".perkNumRaffleShow").html(chain);
+                $("#" + window.containerID).find(".perkWait").hide();
+
                 window.perkTokenBeenCalled = false;
                 window.perkButtonEnd = true;
                 window.beenShared = false;
                 $("#" + window.containerID).find(".perkCustomButton").html("Finalizar");
                 $("#" + window.containerID).find(".perkPostFlight").show();
+                $("#" + window.containerID).find(".perkCheckBox").each(function() {
+                    $(this).prop("checked", false)
+                });
+                $("#" + window.containerID).find(".perkCheckBox").each(function() {
+                    $(this).attr("disabled", true)
+                });
+
 
                 //Call to mailchimper
                 mailChimper(resultJson);
@@ -512,7 +535,12 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-
+    $("#" + window.containerID).find(".perkSocial").hide();
+    var checkBoxes = $("#" + containerID).find(".perkCheckBox");
+    //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
+    var libroID = checkBoxes[0].id;
+    var cursoID = checkBoxes[1].id;
+    //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
     var inputBoxMin = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
 
@@ -521,7 +549,8 @@ $(".perkCustomButton").click(function(e) {
     }
 
     if (window.perkButtonEnd == false) {
-
+        window.libro = $("#" + libroID).is(":checked");
+        window.curso = $("#" + cursoID).is(":checked");
         window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val();
         window.amountCents = window.amount * 100;
         window.perkCode = $("#" + window.containerID).attr("name");
@@ -532,6 +561,7 @@ $(".perkCustomButton").click(function(e) {
 
         });
 
+        $("#" + window.containerID).find(".perkWait").show();
 
     } else if (window.perkButtonEnd == true) {
         perkBlocksReset(window.containerID);
@@ -545,16 +575,26 @@ $(".perkSelect").click(function() {
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
+    $("#" + window.containerID).find(".perkCheckBox").each(function() {
+        $(this).prop("checked", false)
+    });
+    $("#" + window.containerID).find(".perkCheckBox").each(function() {
+        $(this).attr("disabled", true)
+    });
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
-
+        if (parseInt(amount, 10) >= 45) {
+            $("#" + window.containerID).find(".perkSocial").show();
+        } else {
+            $("#" + window.containerID).find(".perkSocial").hide();
+        }
 
     });
 
     window.amount = $(this).siblings(".perkSend").find(".perkCustomDonationAmount").val();
-    if (parseInt(window.amount, 10) >= 15) {
-        //        $("#" + window.containerID).find(".perkSocial").show();
+    if (parseInt(window.amount, 10) >= 45) {
+        $("#" + window.containerID).find(".perkSocial").show();
     }
     $("#" + window.containerID).find(".perkToggle").css("pointer-events", "auto");
     $(".perkContenedor").css("height", "auto");
@@ -570,7 +610,10 @@ $(".perkSelect").click(function() {
         easing: "easeInOutSine",
         duration: 500
     });
-
+    $(this).parent().find(".perkPreFlight").show("blind", {
+        easing: "easeInOutSine",
+        duration: 500
+    });
 
 });
 
@@ -583,16 +626,16 @@ function perkBlocksReset(id) {
 
     }
 
-
+    $("#" + id).find(".perkRaffle").hide();
     $("#" + id).find(".perkCustomDonationAmount").hide();
-    //    $("#" + id).find(".perkPreFlight").hide();
+    $("#" + id).find(".perkPreFlight").hide();
     $("#" + id).find(".perkPostFlight").hide();
-    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= 15) {
-
+    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= 45) {
+        $("#" + id).find(".perkSocial").show();
     } else {
-
+        $("#" + id).find(".perkSocial").hide();
     }
-
+    $("#" + id).find(".perkNetError").hide();
     $("#" + id).find(".perkCustomButton").html("Seleccionar");
     $("#" + id).find(".perkDelivery").css("border-bottom", "none");
     $("#" + id).find(".perkButton").css("display", "none");
@@ -627,7 +670,10 @@ $(window).on('popstate', function() {
 $(document).on("DOMNodeRemoved", ".stripe_checkout_app", close);
 
 function close() {
-
+    //  alert("close stripe");
+    if (window.perkTokenBeenCalled == false) {
+        $(".perkWait").hide();
+    }
 }
 
 //PARSER FUNCTIONS (GET DATA FROM GOOGLE SHEETS SERVER)***************************************************************************************
