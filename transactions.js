@@ -69,6 +69,7 @@ $(document).ready(function() {
     window.perkToggleState = null;
     window.libro = false;
     window.curso = false;
+    //Hides social networking for raffle
     $(".perkSocial").hide();
 });
 
@@ -227,10 +228,6 @@ function statsInit() {
             $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
             $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
             $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
-            //calculates the necessary perks to be sold for minimum amount
-            //var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
-            //$("#spanPerk10NeededSupport").html(perk10Supporters);
-            //sets the minimum value to assign to input box. This can be hacked. CHECKED ON SERVER SIDE.
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
             var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
@@ -240,7 +237,6 @@ function statsInit() {
 }
 
 $(document).ajaxSuccess(function(evnt, xhr, settings) {
-    console.log(settings.url);
     //Discriminate different options
     switch (settings.url) {
         case "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js":
@@ -255,7 +251,6 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
 
 //TWITTER**************************************************************************************************************************************
 if (raffleInProgress) {
-
     window.twttr = (function(d, s, id) {
         var js,
             fjs = d.getElementsByTagName(s)[0],
@@ -512,10 +507,8 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkLocalizerShow").html(window.localizer);
                 $("#" + window.containerID).find(".perkDate").html(now);
                 var chain = "<br>No has concursado en la rifa";
-                if (resultJson.numRaffle2) {
+                if (resultJson.numRaffle) {
                     var chain = "<br>" + resultJson.numRaffle + "<br>" + resultJson.numRaffle2;
-                } else if (resultJson.numRaffle) {
-                    chain = "<br>" + resultJson.numRaffle;
                 }
                 $("#" + window.containerID).find(".perkNumRaffleShow").html(chain);
                 $("#" + window.containerID).find(".perkWait").hide();
@@ -591,7 +584,7 @@ $(".perkSelect").click(function() {
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
-        if (parseInt(amount, 10) >= minAmountRaffle) {
+        if (raffleInProgress&&(parseInt(amount, 10) >= minAmountRaffle)) {
             $("#" + window.containerID).find(".perkSocial").show();
         } else {
             $("#" + window.containerID).find(".perkSocial").hide();
@@ -600,7 +593,7 @@ $(".perkSelect").click(function() {
     });
 
     window.amount = $(this).siblings(".perkSend").find(".perkCustomDonationAmount").val();
-    if (parseInt(window.amount, 10) >= minAmountRaffle) {
+    if (raffleInProgress&&(parseInt(window.amount, 10) >= minAmountRaffle)) {
         $("#" + window.containerID).find(".perkSocial").show();
     }
     $("#" + window.containerID).find(".perkToggle").css("pointer-events", "auto");
