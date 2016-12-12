@@ -389,9 +389,9 @@ $("#cfFAQs1").accordion({
 $(".specialDelivery").find("input[name=certified]").change(function(){
     if(this.checked){
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", 100);
-        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
-    } else {
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
+    } else {
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
 
     }
 
