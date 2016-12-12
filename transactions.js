@@ -552,8 +552,8 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-    window.urgentAmount = 0;
-    window.certifiedAmount = 0;
+//    window.urgentAmount = 0;
+//    window.certifiedAmount = 0;
     $("#" + window.containerID).find(".perkSocial").hide();
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
@@ -570,12 +570,12 @@ $(".perkCustomButton").click(function(e) {
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
         window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-        if (window.isCertified) {
+        /*if (window.isCertified) {
             window.amount = window.amount + window.certifiedAmount;
         }
         if (window.isUrgent) {
             window.amount = window.amount + window.urgentAmount;
-        }
+        }*/
         window.amountCents = window.amount * 100;
 
         handler.open({
