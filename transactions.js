@@ -228,6 +228,8 @@ function statsInit() {
             $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
             $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
             $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
+            $("#specialDeliveryAmount" + toTitleCase(prop) +"Urgent").html(window.crowdfundingStats[prop].urgent);
+            $("#specialDeliveryAmount" + toTitleCase(prop) +"Certified").html(window.crowdfundingStats[prop].certified);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
             var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
