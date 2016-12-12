@@ -607,7 +607,6 @@ $(".perkSelect").click(function() {
         $(this).prop("checked", false);
     });
     $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
-    window.certifiedAmount = ;
     //$("#" + window.containerID).find(".perkCheckBox").each(function() {
     //    $(this).prop("checked", false)
     //});
