@@ -228,8 +228,8 @@ function statsInit() {
             $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
             $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
             $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
-            $("#specialDeliveryAmount" + toTitleCase(prop) +"Urgent").html(window.crowdfundingStats[prop].urgent);
-            $("#specialDeliveryAmount" + toTitleCase(prop) +"Certified").html(window.crowdfundingStats[prop].certified);
+            $("#specialDeliveryAmount" + toTitleCase(prop) + "Urgent").html(window.crowdfundingStats[prop].urgent);
+            $("#specialDeliveryAmount" + toTitleCase(prop) + "Certified").html(window.crowdfundingStats[prop].certified);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
             var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
@@ -386,15 +386,17 @@ $("#cfFAQs1").accordion({
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
 
 //Sets the minimum for each perk to fit with special delivery options
-$(".specialDelivery").find("input[name=certified]").change(function(){
-    if(this.checked){
-        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", 100);
+$(".specialDelivery").find("input[name=certified]").change(function() {
+    if (this.checked) {
+        var min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
+        min = min + parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
     } else {
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
 
     }
-
 })
 
 //Capitalizes first letter, lower case the rest
