@@ -388,7 +388,7 @@ $("#cfFAQs1").accordion({
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input[name=certified]").change(function() {
     if (this.checked) {
-        var min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
+        var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
         console.log(min);
         min = min + parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         console.log(min);
@@ -570,13 +570,13 @@ $(".perkCustomButton").click(function(e) {
         window.isCertified = certifiedCheckbox.is(":checked");
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
+        window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
         if (window.isCertified) {
-            window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
+            window.amount = window.amount + window.certifiedAmount;
         }
         if (window.isUrgent) {
-            window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10) - window.certifiedAmount;
+            window.amount = window.amount + window.urgentAmount;
         }
-        window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount + window.urgentAmount;
         window.amountCents = window.amount * 100;
 
         handler.open({
@@ -597,6 +597,9 @@ $(".perkCustomButton").click(function(e) {
 //When clicking on perk selection
 $(".perkSelect").click(function() {
     window.containerID = $(this).parents(".perkContenedor").attr("id");
+    window.perkCode = $("#" + window.containerID).attr("name");
+    window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
+    window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
@@ -604,6 +607,7 @@ $(".perkSelect").click(function() {
         $(this).prop("checked", false);
     });
     $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
+    window.certifiedAmount = ;
     //$("#" + window.containerID).find(".perkCheckBox").each(function() {
     //    $(this).prop("checked", false)
     //});
