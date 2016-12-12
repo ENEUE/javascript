@@ -10,6 +10,9 @@ Rawgit resources:
 
 //resizes youtube player
 
+//Minumum amount to participate in Raffle
+var minAmountRaffle = 45;
+
 function youTubeResize(idFrame, widthContainer) {
     $("#" + idFrame).width(widthContainer);
     var height = widthContainer * 9 / 16;
@@ -64,8 +67,6 @@ $(document).ready(function() {
     window.perkToggleState = null;
     window.libro = false;
     window.curso = false;
-    //Minumum amount to participate in Raffle
-    var minAmountRaffle = 45;
     $(".perkSocial").hide();
 });
 
