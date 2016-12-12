@@ -64,7 +64,7 @@ $(document).ready(function() {
     window.perkToggleState = null;
     window.libro = false;
     window.curso = false;
-    //    $(".perkSocial").hide();
+    $(".perkSocial").hide();
 });
 
 //Ajax Success Main function
