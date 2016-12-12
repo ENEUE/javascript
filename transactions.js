@@ -322,7 +322,7 @@ function hasBeenShared(response, ID) {
     if (response) {
         $("#" + perkSocialID).hide();
         $("#" + raffleID).show();
-        if (window.amount >= 15) {
+        if (window.amount >= 45) {
             window.beenShared = true;
             $("#" + raffleID).find(".perkCheckBox").each(function() {
                 $(this).prop("checked", true)
