@@ -335,10 +335,10 @@ function hasBeenShared(response, ID) {
         $("#" + perkNetworksID).hide();
         $("#" + perkErrorID).show();
     }
-}*/
+}
 
 //On clicking facebook div display sharing window and trigger callback function
-/*$(".perkFacebook").on("click", function() {
+$(".perkFacebook").on("click", function() {
     facebookShare(this);
 });
 
