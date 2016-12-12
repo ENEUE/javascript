@@ -535,11 +535,13 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
+    window.urgentAmount = 0;
+    window.certifiedAmount = 0;
     $("#" + window.containerID).find(".perkSocial").hide();
-    //var checkBoxes = $("#" + containerID).find(".perkCheckBox");
+    var checkBoxes = $("#" + containerID).find(".specialDelivery");
     //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
-    //var libroID = checkBoxes[0].id;
-    //var cursoID = checkBoxes[1].id;
+    var certifiedCheckbox = checkBoxes.find("input[name=certified]");
+    var urgentCheckbox = checkBoxes.find("input[name=urgent]");
     //**************************************************************IMPORTANT!  THIS CAN BE IMPROVED. RELIES ON THE ORDER. WHAT IF FAILS?*********
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
     var inputBoxMin = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
@@ -549,11 +551,18 @@ $(".perkCustomButton").click(function(e) {
     }
 
     if (window.perkButtonEnd == false) {
-        //window.libro = $("#" + libroID).is(":checked");
-        //window.curso = $("#" + cursoID).is(":checked");
-        window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val();
-        window.amountCents = window.amount * 100;
+        window.isCertified = certifiedCheckbox.is(":checked");
+        window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
+        if (window.isCertified) {
+            window.certifiedAmount = window.crowdfundingStats[window.perkCode].certified;
+        }
+        if (window.isUrgent) {
+            window.urgentAmount = window.crowdfundingStats[window.perkCode].urgent - window.certifiedAmount;
+        }
+        window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val() + window.certifiedAmount + window.urgentAmount;
+        window.amountCents = window.amount * 100;
+
         handler.open({
             name: '@noesunaescuela',
             description: window.crowdfundingStats[window.perkCode].description,
@@ -575,6 +584,10 @@ $(".perkSelect").click(function() {
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
+    $("#" + containerID).find(".specialDelivery").find("input").each(function() {
+        $(this).prop("checked", false);
+    });
+    $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
     //$("#" + window.containerID).find(".perkCheckBox").each(function() {
     //    $(this).prop("checked", false)
     //});
@@ -584,7 +597,7 @@ $(".perkSelect").click(function() {
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
-        if (raffleInProgress&&(parseInt(amount, 10) >= minAmountRaffle)) {
+        if (raffleInProgress && (parseInt(amount, 10) >= minAmountRaffle)) {
             $("#" + window.containerID).find(".perkSocial").show();
         } else {
             $("#" + window.containerID).find(".perkSocial").hide();
@@ -593,7 +606,7 @@ $(".perkSelect").click(function() {
     });
 
     window.amount = $(this).siblings(".perkSend").find(".perkCustomDonationAmount").val();
-    if (raffleInProgress&&(parseInt(window.amount, 10) >= minAmountRaffle)) {
+    if (raffleInProgress && (parseInt(window.amount, 10) >= minAmountRaffle)) {
         $("#" + window.containerID).find(".perkSocial").show();
     }
     $("#" + window.containerID).find(".perkToggle").css("pointer-events", "auto");
@@ -630,7 +643,7 @@ function perkBlocksReset(id) {
     $("#" + id).find(".perkCustomDonationAmount").hide();
     $("#" + id).find(".perkPreFlight").hide();
     $("#" + id).find(".perkPostFlight").hide();
-    if ((parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle)&&raffleInProgress) {
+    if ((parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle) && raffleInProgress) {
         $("#" + id).find(".perkSocial").show();
     } else {
         $("#" + id).find(".perkSocial").hide();
