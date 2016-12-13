@@ -1,3 +1,14 @@
+/* Author:
+* Diego Gutiérrez Marañón ground.contact@gmail.com
+*
+Rawgit resources:
+
+ Production: https://cdn.rawgit.com/ENEUE/javascript/campaign/retornos.js
+ Development: https://rawgit.com/ENEUE/javascript/campaign/retornos.js
+*/
+
+
+
 //Ajax call invocation to store Crowdfunding Status Data
 getCrowdfundingStats();
 //Minumum amount to participate in Raffle
@@ -26,7 +37,7 @@ $(document).ready(function() {
 });
 //Ajax call definition that stores Crowdfunding Status Data
 function getCrowdfundingStats() {
-    var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
+    var spreadsheetID = '12RVhVf9zmoElzNy7GGhs0BJz2LF05F9Cx8NcRKdHSZY';
     var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic';
     var query = {
         alt: "json"
