@@ -387,15 +387,10 @@ $("#cfFAQs1").accordion({
 
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input").change(function() {
-    //    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;});
-    //    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;});
-    var esto = this;
-    console.log(this);
-    //    console.log(certifiedHandle);
     var checkBox = $(this).val();
     console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-    var amount, min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
+    var amount, min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
     console.log(value + "  :  " + min);
     if (checkBox == "CERTIFICADO") {
         amount = window.certifiedAmount;
@@ -407,9 +402,13 @@ $(".specialDelivery").find("input").change(function() {
     if (this.checked) {
         min = min + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        value = value + amount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         min = min - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        value = value - amount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
