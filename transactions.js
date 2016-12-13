@@ -400,7 +400,7 @@ $(".specialDelivery").find("input").change(function() {
         amount = window.urgentAmount;
     }
 
-    if ($(this).prop("checked", true) {
+    if ($(this).prop("checked", true)) {
         min = min + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value + amount;
