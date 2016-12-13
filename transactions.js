@@ -388,17 +388,13 @@ $("#cfFAQs1").accordion({
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input").change(function() {
     var checkBox = $(this).val();
-    console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
     var amount, min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
-    //var setMin = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
-    console.log("value: " + value + "; min: " + min);
     if (checkBox == "CERTIFICADO") {
         amount = window.certifiedAmount;
     } else {
         amount = window.urgentAmount;
     }
-
     if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == true){
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
         
@@ -408,7 +404,6 @@ $(".specialDelivery").find("input").change(function() {
         }
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
-
     }
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
@@ -424,11 +419,7 @@ $(".specialDelivery").find("input").change(function() {
         value = Math.round((value - amount)*100)/100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     }
-    /*$("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-    parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
-    $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);*/
 })
-
 
 //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
