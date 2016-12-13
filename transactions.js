@@ -413,15 +413,15 @@ $(".specialDelivery").find("input").change(function() {
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
         console.log(checkBox + " is checked");
-        min = min + amount;
+        min = Math.round((min + amount)*100)/100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = value + amount;
+        value = Math.round((value + amount)*100)/100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         console.log(checkBox + " is unchecked");
-        min = min - amount;
+        min = Math.round((min - amount)*100)/100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = value - amount;
+        value = Math.round((value - amount)*100)/100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     }
     /*$("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
