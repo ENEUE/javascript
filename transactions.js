@@ -505,6 +505,8 @@ var handler = StripeCheckout.configure({
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
     currency: "EUR",
+    zipCode: true,
+    shippingAddress: true,
     panelLabel: "Dona {{amount}}",
     allowRememberMe: false,
     token: function(token, args) {
