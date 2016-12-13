@@ -400,7 +400,7 @@ $(".specialDelivery").find("input[name=certified]").change(function() {
         amount = window.urgentAmount;
     }*/
     //console.log("amount: " + amount);
-    if ($(this).prop("checked", true)) {
+    if ($(this).prop("checked") == true) {
         console.log("certified is checked");
 /*       $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value + amount;
@@ -423,7 +423,7 @@ $(".specialDelivery").find("input[name=certified]").change(function() {
 
 
 $(".specialDelivery").find("input[name=urgent]").change(function() {
-    if ($(this).prop("checked", true)) {
+    if ($(this).prop("checked") == true) {
         console.log("urgent is checked");
 } else {
         console.log("urgent is unchecked");
