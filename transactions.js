@@ -67,8 +67,6 @@ $(document).ready(function() {
     window.perkButtonEnd = false;
     window.beenShared = false;
     window.perkToggleState = null;
-    window.libro = false;
-    window.curso = false;
     //Hides social networking for raffle
     $(".perkSocial").hide();
 });
@@ -298,7 +296,6 @@ if (raffleInProgress) {
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
 
-    //*************************************************************CUSTOM FUNCTIONS SOCIAL NETWORKS**************************************************
     function facebookShare(obj) {
         var parentID = obj.id;
         FB.ui({
@@ -347,6 +344,9 @@ if (raffleInProgress) {
 
 
 }
+
+//*************************************************************CUSTOM FUNCTIONS SOCIAL NETWORKS**************************************************
+
 
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
@@ -405,7 +405,6 @@ $(".specialDelivery").find("input").change(function() {
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
-    console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
         window[checkBox] = true;
         min = Math.round((min + amount) * 100) / 100;
@@ -419,7 +418,7 @@ $(".specialDelivery").find("input").change(function() {
         value = Math.round((value - amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     }
-})
+});
 
 //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
@@ -507,7 +506,7 @@ var handler = StripeCheckout.configure({
     currency: "EUR",
     zipCode: true,
     shippingAddress: true,
-    billingAddress: false, 
+    billingAddress: false,
     panelLabel: "Dona {{amount}}",
     allowRememberMe: false,
     token: function(token, args) {
@@ -559,13 +558,6 @@ var handler = StripeCheckout.configure({
                 window.beenShared = false;
                 $("#" + window.containerID).find(".perkCustomButton").html("Finalizar");
                 $("#" + window.containerID).find(".perkPostFlight").show();
-                /*$("#" + window.containerID).find(".perkCheckBox").each(function() {
-                    $(this).prop("checked", false)
-                });*/
-                /*$("#" + window.containerID).find(".perkCheckBox").each(function() {
-                    $(this).attr("disabled", true)
-                });*/
-
 
                 //Call to mailchimper
                 mailChimper(resultJson);
@@ -576,8 +568,6 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-    //    window.urgentAmount = 0;
-    //    window.certifiedAmount = 0;
     $("#" + window.containerID).find(".perkSocial").hide();
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
@@ -594,21 +584,13 @@ $(".perkCustomButton").click(function(e) {
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
         window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-        /*if (window.isCertified) {
-            window.amount = window.amount + window.certifiedAmount;
-        }
-        if (window.isUrgent) {
-            window.amount = window.amount + window.urgentAmount;
-        }*/
         window.amountCents = window.amount * 100;
-
         handler.open({
             name: '@noesunaescuela',
             description: window.crowdfundingStats[window.perkCode].description,
             amount: window.amountCents
 
         });
-
         $("#" + window.containerID).find(".perkWait").show();
 
     } else if (window.perkButtonEnd == true) {
