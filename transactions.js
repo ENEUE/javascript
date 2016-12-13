@@ -387,9 +387,12 @@ $("#cfFAQs1").accordion({
 
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input").change(function() {
-    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;})
-    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;})
-    var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;});
+    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;});
+    console.log(urgentHandle);
+    console.log(certifiedHandle);
+    var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+    var min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
     if (certifiedHandle.checked) {
         min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
