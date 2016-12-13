@@ -421,7 +421,7 @@ $(".specialDelivery").find("input").change(function() {
 })
 
 
-$(".specialDelivery").find("input[name=urgent]").change(function() {
+/*$(".specialDelivery").find("input[name=urgent]").change(function() {
         var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
         if (this.checked) {
             min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.urgentAmount;
@@ -432,7 +432,7 @@ $(".specialDelivery").find("input[name=urgent]").change(function() {
         }
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
-    })
+    })*/
     //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
