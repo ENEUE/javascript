@@ -395,11 +395,11 @@ $(".specialDelivery").find("input").change(function() {
     } else {
         amount = window.urgentAmount;
     }
-    if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == true){
+    if (checkBox == "CERTIFICADO" && $(this).prop("checked") == true) {
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
-        
-    } else if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == false){
-        if($("#" + window.containerID).find("input[name=urgent]").prop("checked")==true){
+
+    } else if (checkBox == "CERTIFICADO" && $(this).prop("checked") == false) {
+        if ($("#" + window.containerID).find("input[name=urgent]").prop("checked") == true) {
             amount = amount + window.urgentAmount;
         }
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
@@ -408,15 +408,15 @@ $(".specialDelivery").find("input").change(function() {
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
         console.log(checkBox + " is checked");
-        min = Math.round((min + amount)*100)/100;
+        min = Math.round((min + amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = Math.round((value + amount)*100)/100;
+        value = Math.round((value + amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         console.log(checkBox + " is unchecked");
-        min = Math.round((min - amount)*100)/100;
+        min = Math.round((min - amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = Math.round((value - amount)*100)/100;
+        value = Math.round((value - amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     }
 })
@@ -623,16 +623,11 @@ $(".perkSelect").click(function() {
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
+    $("#" + containerID).find(".specialDelivery").show();
     $("#" + containerID).find(".specialDelivery").find("input").each(function() {
         $(this).prop("checked", false);
     });
-    $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
-    //$("#" + window.containerID).find(".perkCheckBox").each(function() {
-    //    $(this).prop("checked", false)
-    //});
-    //$("#" + window.containerID).find(".perkCheckBox").each(function() {
-    //    $(this).attr("disabled", true)
-    //});
+    //$("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
@@ -693,6 +688,7 @@ function perkBlocksReset(id) {
     $("#" + id).find(".perkButton").css("display", "none");
     $("#" + id).find(".perkToggle").css("pointer-events", "none");
     $("#" + id).find(".perkSelect").css("display", "block");
+    $("#" + id).find(".specialDelivery").hide();
 
 }
 
