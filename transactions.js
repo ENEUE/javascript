@@ -510,7 +510,7 @@ var handler = StripeCheckout.configure({
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
         var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
-        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode;
+        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode + "&isCertified=" + window.CERTIFICADO + "&isUrgent=" + window.URGENTE;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
             e: eQuery
