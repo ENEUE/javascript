@@ -628,7 +628,8 @@ $(".perkSelect").click(function() {
         $(this).prop("checked", false);
     });
     $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
-
+    $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", parseFloat(window.crowdfundingStats[window.perkCode].price, 10));
+    $("#" + window.containerID).find(".perkCustomDonationAmount").val(parseFloat(window.crowdfundingStats[window.perkCode].price);
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
         if (raffleInProgress && (parseInt(amount, 10) >= minAmountRaffle)) {
@@ -702,6 +703,7 @@ $(".perkSelect").hover(function() {
 // BUT the one clicked
 function perkAccordion(id) {
     var siblings = $("#" + id).siblings();
+
     siblings.css("border", "none");
     siblings.css("box-shadow", "none");
     siblings.each(function(i) {
