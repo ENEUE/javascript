@@ -387,38 +387,51 @@ $("#cfFAQs1").accordion({
 
 //Sets the minimum for each perk to fit with special delivery options
 $(".specialDelivery").find("input").change(function() {
-    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;});
-    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;});
-    console.log(urgentHandle);
-    console.log(certifiedHandle);
+    //    var urgentHandle = $.grep(this, function(n){if (n.name =="urgent") return true;});
+    //    var certifiedHandle = $.grep(this, function(n){if (n.name =="certified") return true;});
+    var esto = this;
+    console.log(this);
+    //    console.log(certifiedHandle);
+    var checkBox = this.val();
+    console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-    var min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
-    if (certifiedHandle.checked) {
-        min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
+    var amount, min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
+    console.log(value + "  :  " + min);
+    if (checkBox == "CERTIFICADO") {
+        amount = window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
-    }else {
-        min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
+    } else {
+        amount = window.urgentAmount;
+    }
+
+    if (this.checked) {
+        min = min + amount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+    } else {
+        min = min - amount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
-        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
+    /*$("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+    parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
+    $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);*/
 })
 
 
 $(".specialDelivery").find("input[name=urgent]").change(function() {
-    var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-    if (this.checked) {
-        min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.urgentAmount;
-    } else {
-        min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
-        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
-        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
-    }
+        var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+        if (this.checked) {
+            min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.urgentAmount;
+        } else {
+            min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
+            $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
+            $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
+        }
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);
-})
-//Capitalizes first letter, lower case the rest
+    })
+    //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -570,8 +583,8 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-//    window.urgentAmount = 0;
-//    window.certifiedAmount = 0;
+    //    window.urgentAmount = 0;
+    //    window.certifiedAmount = 0;
     $("#" + window.containerID).find(".perkSocial").hide();
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
