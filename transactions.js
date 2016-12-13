@@ -402,7 +402,7 @@ $(".specialDelivery").find("input").change(function() {
     if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == true){
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
         
-    } else {
+    } else if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == false){
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
 
