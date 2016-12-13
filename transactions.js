@@ -396,8 +396,6 @@ $(".specialDelivery").find("input").change(function() {
     if (certifiedHandle.checked) {
         min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
-    } else if (){
-        
     }else {
         min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
