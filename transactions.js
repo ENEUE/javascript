@@ -403,6 +403,9 @@ $(".specialDelivery").find("input").change(function() {
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
         
     } else if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == false){
+        if($("#" + window.containerID).find("input[name=urgent]").prop("checked")==true){
+            amount = amount + window.urgentAmount;
+        }
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
 
