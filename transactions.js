@@ -507,6 +507,7 @@ var handler = StripeCheckout.configure({
     currency: "EUR",
     zipCode: true,
     shippingAddress: true,
+    billingAddress: false, 
     panelLabel: "Dona {{amount}}",
     allowRememberMe: false,
     token: function(token, args) {
