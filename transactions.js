@@ -392,7 +392,7 @@ $(".specialDelivery").find("input").change(function() {
     var esto = this;
     console.log(this);
     //    console.log(certifiedHandle);
-    var checkBox = this.val();
+    var checkBox = $(this).val();
     console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
     var amount, min = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min");
