@@ -308,7 +308,7 @@ if (raffleInProgress) {
             caption: 'Gracias por compartir este vídeo',
             picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
             source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
-            description: 'Un día soñamos con una escuela diferente: una escuela en la que aprendizaje y placer fueran de la mano. Una escuela más humana, activa y transformadora. Y fuimos a buscarla. Te invitamos a acompañarnos en un viaje apasionante descubriendo lugares y personas que están revolucionando, entre otras cosas, lo que entendemos por educación.'
+            description: 'Hasta el 6 de enero, te obsequiamos con más, por menos'
         }, (function(parentID) {
             return function(response) {
                 hasBeenShared(response, parentID);
@@ -407,7 +407,7 @@ $(".specialDelivery").find("input").change(function() {
     }
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
-        console.log(checkBox + " is checked");
+        window[checkBox] = checkBox;
         min = Math.round((min + amount) * 100) / 100;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = Math.round((value + amount) * 100) / 100;
