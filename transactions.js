@@ -402,18 +402,18 @@ $(".specialDelivery").find("input").change(function() {
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
         console.log(checkBox + " is checked");
-/*       $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        min = min + amount;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value + amount;
-        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);*/
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         console.log(checkBox + " is unchecked");
-
-/*        min = min - amount;
+        min = min - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
-        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
-        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);*/
+        //$("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
+        //$("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
     /*$("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
     parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
@@ -421,25 +421,7 @@ $(".specialDelivery").find("input").change(function() {
 })
 
 
-
-/*$(".specialDelivery").find("input[name=urgent]").change(function() {
-    if ($(this).prop("checked") == true) {
-        console.log("urgent is checked");
-} else {
-        console.log("urgent is unchecked");
-        }        //var min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-        /*if (this.checked) {
-            min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10) + window.urgentAmount;
-        } else {
-            min = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
-            $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
-            $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
-        }
-        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);*/
-   // })
-
-    //Capitalizes first letter, lower case the rest
+//Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
