@@ -400,15 +400,15 @@ $(".specialDelivery").find("input").change(function() {
         amount = window.urgentAmount;
     }
 
-    if (this.checked) {
+    if ($(this).prop("checked", true) {
         min = min + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        //value = value + amount;
+        value = value + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         min = min - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        //value = value - amount;
+        value = value - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
