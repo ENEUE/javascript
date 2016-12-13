@@ -386,27 +386,27 @@ $("#cfFAQs1").accordion({
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
 
 //Sets the minimum for each perk to fit with special delivery options
-$(".specialDelivery").find("input[name=certified]").change(function() {
-    //var checkBox = $(this).val();
-    //console.log(checkBox);
+$(".specialDelivery").find("input").change(function() {
+    var checkBox = $(this).val();
+    console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
     var amount, min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
     //var setMin = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
     console.log("value: " + value + "; min: " + min);
-    /*if (checkBox == "CERTIFICADO") {
+    if (checkBox == "CERTIFICADO") {
         amount = window.certifiedAmount;
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
     } else {
         amount = window.urgentAmount;
-    }*/
-    //console.log("amount: " + amount);
+    }
+    console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
-        console.log("certified is checked");
+        console.log(checkBox + " is checked");
 /*       $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);*/
     } else {
-        console.log("certified is unchecked");
+        console.log(checkBox + " is unchecked");
 
 /*        min = min - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
@@ -422,7 +422,7 @@ $(".specialDelivery").find("input[name=certified]").change(function() {
 
 
 
-$(".specialDelivery").find("input[name=urgent]").change(function() {
+/*$(".specialDelivery").find("input[name=urgent]").change(function() {
     if ($(this).prop("checked") == true) {
         console.log("urgent is checked");
 } else {
@@ -437,7 +437,8 @@ $(".specialDelivery").find("input[name=urgent]").change(function() {
         }
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(min);*/
-    })
+   // })
+
     //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
