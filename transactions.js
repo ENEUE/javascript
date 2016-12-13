@@ -395,9 +395,17 @@ $(".specialDelivery").find("input").change(function() {
     console.log("value: " + value + "; min: " + min);
     if (checkBox == "CERTIFICADO") {
         amount = window.certifiedAmount;
-        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
     } else {
         amount = window.urgentAmount;
+    }
+
+    if(checkBox == "CERTIFICADO"&&$(this).prop("checked") == true){
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
+        
+    } else {
+        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
+
     }
     console.log("amount: " + amount);
     if ($(this).prop("checked") == true) {
@@ -412,8 +420,6 @@ $(".specialDelivery").find("input").change(function() {
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
         value = value - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
-        //$("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
-        //$("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
     }
     /*$("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
     parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
