@@ -391,6 +391,7 @@ $(".specialDelivery").find("input").change(function() {
     console.log(checkBox);
     var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
     var amount, min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
+    var setMin = parseFloat(window.crowdfundingStats[window.perkCode].price, 10);
     console.log(value + "  :  " + min);
     if (checkBox == "CERTIFICADO") {
         amount = window.certifiedAmount;
@@ -402,12 +403,12 @@ $(".specialDelivery").find("input").change(function() {
     if (this.checked) {
         min = min + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = value + amount;
+        //value = value + amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
     } else {
         min = min - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
-        value = value - amount;
+        //value = value - amount;
         $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
         $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
         $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
