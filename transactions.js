@@ -627,7 +627,7 @@ $(".perkSelect").click(function() {
     $("#" + containerID).find(".specialDelivery").find("input").each(function() {
         $(this).prop("checked", false);
     });
-    //$("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
+    $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
 
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
