@@ -372,7 +372,7 @@ $(".perkCustomButton").click(function(e) {
 $(".perkPopUp").click(function(e) {
     window.containerID = e.currentTarget.attributes.name.value;
     window.modalID = e.currentTarget.attributes.href.value.replace("#", "");
-    window.perkCode = $("#" + window.containerID).attr("name");
+    window.perkCode = toUpperCase(e.currentTarget.name);
     window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
     window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
     window.CERTIFICADO = false;
