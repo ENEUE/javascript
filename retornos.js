@@ -391,9 +391,15 @@ $(".perkRadio").click(function(e) {
         $(this).prop("checked", false);
     });
     $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
-
+    $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", parseFloat(window.crowdfundingStats[window.perkCode].price, 10));
+    $("#" + window.containerID).find(".perkCustomDonationAmount").val(parseFloat(window.crowdfundingStats[window.perkCode].price));
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
+        if (raffleInProgress && (parseInt(amount, 10) >= minAmountRaffle)) {
+            $("#" + window.containerID).find(".perkSocial").show();
+        } else {
+            $("#" + window.containerID).find(".perkSocial").hide();
+        }
 
     });
 
