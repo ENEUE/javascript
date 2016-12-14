@@ -345,7 +345,7 @@ if (raffleInProgress) {
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
 function mailChimper(params) {
-    var redirectDomain = "https://script.google.com/macros/s/AKfycbwG-vdUup2QUNsU5uH4QjRN9PJyXriwLiXvrwS_YpMQqBY1-8VR/exec";
+    var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
     var Query = "email_address=" + params.eMail + "&localizer=" + params.localizer + "&amount=" + params.amount + "&perkID=" + params.perkID;
     var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
     var Query = {
