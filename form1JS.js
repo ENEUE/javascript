@@ -73,7 +73,7 @@ var request = $.ajax({
     type: 'get',
     url: redirectDomain,
     jsonpCallback: 'updateCustomer',
-    contentType: "application/json",
+    contentType: "application/javascript",
     dataType: 'jsonp',
     data: Query
 });
