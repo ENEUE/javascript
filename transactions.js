@@ -324,12 +324,6 @@ if (raffleInProgress) {
             $("#" + raffleID).show();
             if (window.amount >= minAmountRaffle) {
                 window.beenShared = true;
-                /*$("#" + raffleID).find(".perkCheckBox").each(function() {
-                    $(this).prop("checked", true)
-                });
-                $("#" + raffleID).find(".perkCheckBox").each(function() {
-                    $(this).attr("disabled", false)
-                });*/
             }
         } else {
             $("#" + perkNetworksID).hide();
@@ -548,7 +542,7 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkDate").html(now);
                 var chain = "<br>No has concursado en la rifa";
                 if (resultJson.numRaffle) {
-                    var chain = "<br>" + resultJson.numRaffle + "<br>" + resultJson.numRaffle2;
+                    var chain = "<br>" + resultJson.numRaffle;
                 }
                 $("#" + window.containerID).find(".perkNumRaffleShow").html(chain);
                 $("#" + window.containerID).find(".perkWait").hide();
