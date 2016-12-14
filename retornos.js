@@ -37,7 +37,7 @@ $(document).ready(function() {
 });
 //Ajax call definition that stores Crowdfunding Status Data
 function getCrowdfundingStats() {
-    var spreadsheetID = '12RVhVf9zmoElzNy7GGhs0BJz2LF05F9Cx8NcRKdHSZY';
+    var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
     var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic';
     var query = {
         alt: "json"
@@ -281,10 +281,10 @@ var handler = StripeCheckout.configure({
     allowRememberMe: "false",
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
-        var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
+        var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
         var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode + "&isCertified=" + window.CERTIFICADO + "&isUrgent=" + window.URGENTE;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
-        var Query = {
+         var Query = {
             e: eQuery
         };
         var request = $.ajax({
