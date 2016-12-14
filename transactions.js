@@ -3,13 +3,17 @@
 *
 Rawgit resources:
 
- Production: https://cdn.rawgit.com/ENEUE/javascript/master/transactions.js
- Development: https://rawgit.com/ENEUE/javascript/master/transactions.js
-
+ Production: https://cdn.rawgit.com/ENEUE/javascript/campaign/transactions.min.js
+ Development: https://rawgit.com/ENEUE/javascript/campaign/transactions.min.js
 */
 
 
 //resizes youtube player
+
+//Minumum amount to participate in Raffle
+var minAmountRaffle = 45;
+//flag to allow for raffle. Set to false to end raffle.
+var raffleInProgress = true;
 
 function youTubeResize(idFrame, widthContainer) {
     $("#" + idFrame).width(widthContainer);
@@ -63,9 +67,8 @@ $(document).ready(function() {
     window.perkButtonEnd = false;
     window.beenShared = false;
     window.perkToggleState = null;
-    window.libro = false;
-    window.curso = false;
-    //    $(".perkSocial").hide();
+    //Hides social networking for raffle
+    $(".perkSocial").hide();
 });
 
 //Ajax Success Main function
@@ -223,10 +226,8 @@ function statsInit() {
             $("#span" + toTitleCase(prop) + "TotalAvailable").html(window.crowdfundingStats[prop].itemstotalavailable);
             $("#span" + toTitleCase(prop) + "Delivery").html(window.crowdfundingStats[prop].delivery);
             $("#span" + toTitleCase(prop) + "Description").html(window.crowdfundingStats[prop].description);
-            //calculates the necessary perks to be sold for minimum amount
-            var perk10Supporters = Math.ceil((window.crowdfundingStats.TOTALS.minimum - window.crowdfundingStats.TOTALS.totalincome) / window.crowdfundingStats["PERK10"].price);
-            $("#spanPerk10NeededSupport").html(perk10Supporters);
-            //sets the minimum value to assign to input box. This can be hacked. CHECKED ON SERVER SIDE.
+            $("#specialDeliveryAmount" + toTitleCase(prop) + "Urgent").html(window.crowdfundingStats[prop].urgent);
+            $("#specialDeliveryAmount" + toTitleCase(prop) + "Certified").html(window.crowdfundingStats[prop].certified);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("min", window.crowdfundingStats[prop].price);
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("title", "Introduce una cantidad mayor de €" + window.crowdfundingStats[prop].price + ".00");
             var placeHolder = parseInt(window.crowdfundingStats[prop].price, 10) + 10;
@@ -236,7 +237,6 @@ function statsInit() {
 }
 
 $(document).ajaxSuccess(function(evnt, xhr, settings) {
-    console.log(settings.url);
     //Discriminate different options
     switch (settings.url) {
         case "https://raw.githubusercontent.com/ENEUE/eneue.github.io/gh/presupuesto.js":
@@ -247,6 +247,100 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
             break
     }
 });
+//****************************************************SOCIAL SHARING INITIALIZATION************************************************************
+
+//TWITTER**************************************************************************************************************************************
+if (raffleInProgress) {
+    window.twttr = (function(d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0],
+            t = window.twttr || {};
+        if (d.getElementById(id))
+            return t;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://platform.twitter.com/widgets.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        t._e = [];
+        t.ready = function(f) {
+            t._e.push(f);
+        };
+        return t;
+    }(document, "script", "twitter-wjs"));
+
+    twttr.ready(function(twttr) {
+        twttr.events.bind('tweet', function(event) {
+            var ID = event.target.parentElement.id;
+            //Callback checks if content has been shared
+            hasBeenShared(true, ID);
+        });
+    });
+
+    //FACEBOOK**************************************************************************************************************************************
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: "994194617270624",
+            xfbml: true,
+            version: "v2.4"
+        });
+    };
+    (function(d, s, id) {
+        var js,
+            fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    function facebookShare(obj) {
+        var parentID = obj.id;
+        FB.ui({
+            //*****************************************************CHECK TEXT!!!!!!!!!!!!!!!!!!!!!!!!!!!*********************************************
+            method: 'feed',
+            link: 'https://www.facebook.com/estonoesunaescuela/videos/1015089978618765/',
+            caption: 'Gracias por compartir este vídeo',
+            //            picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
+            source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
+            description: 'Hasta el 6 de enero puedes participar en el sorteo de una ilustración original'
+        }, (function(parentID) {
+            return function(response) {
+                hasBeenShared(response, parentID);
+            };
+        })(parentID));
+    }
+
+    //Unveils the raffle selection div and allows selection of raffle items
+    function hasBeenShared(response, ID) {
+        var perkSocialID = $("#" + ID).closest(".perkSocial").attr("id");
+        var raffleID = $("#" + perkSocialID).siblings(".perkRaffle").attr("id");
+        var perkNetworksID = $("#" + ID).closest(".perkNetworks").attr("id");
+        var perkErrorID = $("#" + perkNetworksID).siblings(".perkNetError").attr("id");
+        if (response) {
+            $("#" + perkSocialID).hide();
+            $("#" + raffleID).show();
+            if (window.amount >= minAmountRaffle) {
+                window.beenShared = true;
+            }
+        } else {
+            $("#" + perkNetworksID).hide();
+            $("#" + perkErrorID).show();
+        }
+    }
+
+    //On clicking facebook div display sharing window and trigger callback function
+    $(".perkFacebook").on("click", function() {
+        facebookShare(this);
+    });
+
+
+}
+
+//*************************************************************CUSTOM FUNCTIONS SOCIAL NETWORKS**************************************************
+
 
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
@@ -284,6 +378,41 @@ $("#cfFAQs1").accordion({
 });
 
 //*************************************************************CUSTOM FUNCTIONS PERKS************************************************************
+
+//Sets the minimum for each perk to fit with special delivery options
+$(".specialDelivery").find("input").change(function() {
+    var checkBox = $(this).val();
+    var value = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+    var amount, min = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
+    if (checkBox == "CERTIFICADO") {
+        amount = window.certifiedAmount;
+    } else {
+        amount = window.urgentAmount;
+    }
+    if (checkBox == "CERTIFICADO" && $(this).prop("checked") == true) {
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", false);
+
+    } else if (checkBox == "CERTIFICADO" && $(this).prop("checked") == false) {
+        if ($("#" + window.containerID).find("input[name=urgent]").prop("checked") == true) {
+            amount = amount + window.urgentAmount;
+        }
+        $("#" + window.containerID).find("input[name=urgent]").prop("checked", false);
+        $("#" + window.containerID).find("input[name=urgent]").attr("disabled", true);
+    }
+    if ($(this).prop("checked") == true) {
+        window[checkBox] = true;
+        min = Math.round((min + amount) * 100) / 100;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        value = Math.round((value + amount) * 100) / 100;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
+    } else {
+        window[checkBox] = false;
+        min = Math.round((min - amount) * 100) / 100;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", min);
+        value = Math.round((value - amount) * 100) / 100;
+        $("#" + window.containerID).find(".perkCustomDonationAmount").val(value);
+    }
+});
 
 //Capitalizes first letter, lower case the rest
 function toTitleCase(str) {
@@ -349,6 +478,11 @@ $(".perkDesc .perkToggle span").on("click", function() {
 
 });
 
+//Displays again social sharing block
+$(".divPerkErrorTry").click(function() {
+    $(this).parent().hide();
+    $(this).parent().siblings(".perkNetworks").show();
+});
 
 //Closes spinner while waiting stripe charge information
 function closeWaitDiv(id) {
@@ -359,17 +493,20 @@ function closeWaitDiv(id) {
 
 //Declares the Stripe Checkout Handler and configures it
 var handler = StripeCheckout.configure({
-    key: 'pk_live_uWo17rHYl0BXyyKmoMtHM3aS',
+    key: 'pk_test_AfqpiD3DBLtXD8u39JwGErf8',
     //***************************************************************IMPORTANT!!!!!!!------CHECK IMAGE STORAGE AND PARAMETERS FOR CHECKOUT**********
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
     currency: "EUR",
+    zipCode: true,
+    shippingAddress: true,
+    billingAddress: false,
     panelLabel: "Dona {{amount}}",
-    allowRememberMe: "false",
+    allowRememberMe: false,
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
-        var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
-        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&libro=" + window.libro + "&curso=" + window.curso + "&islive=" + token.livemode;
+        var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
+        var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode + "&isCertified=" + window.CERTIFICADO + "&isUrgent=" + window.URGENTE;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
             e: eQuery
@@ -383,7 +520,9 @@ var handler = StripeCheckout.configure({
             data: Query
         });
         request.done(function(resultJson) {
+            $("#" + window.containerID).find(".perkRaffle").hide(); //Social Sharing and Raffle
             $("#" + window.containerID).find(".perkCustomDonationAmount").hide();
+            $("#" + window.containerID).find(".perkPreFlight").hide();
             var date = new Date();
             var n = date.toLocaleDateString();
             var t = date.toLocaleTimeString();
@@ -401,6 +540,14 @@ var handler = StripeCheckout.configure({
                 $("#" + window.containerID).find(".perkEmailShow").html(window.eMail);
                 $("#" + window.containerID).find(".perkLocalizerShow").html(window.localizer);
                 $("#" + window.containerID).find(".perkDate").html(now);
+                var chain = "<br>No has concursado en la rifa";
+                if (resultJson.numRaffle) {
+                    var chain = "<br>" + resultJson.numRaffle;
+                }
+                $("#" + window.containerID).find(".perkNumRaffleShow").html(chain);
+                $("#" + window.containerID).find(".perkWait").hide();
+                $("#" + window.containerID).find(".specialDelivery").hide();
+
                 window.perkTokenBeenCalled = false;
                 window.perkButtonEnd = true;
                 window.beenShared = false;
@@ -416,26 +563,30 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-
+    $("#" + window.containerID).find(".perkSocial").hide();
+    var checkBoxes = $("#" + containerID).find(".specialDelivery");
+    var certifiedCheckbox = checkBoxes.find("input[name=certified]");
+    var urgentCheckbox = checkBoxes.find("input[name=urgent]");
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
-    var inputBoxMin = parseInt($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
+    var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
 
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         $("#" + inputBoxId).val(inputBoxMin);
     }
 
     if (window.perkButtonEnd == false) {
-
-        window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val();
-        window.amountCents = window.amount * 100;
+        window.isCertified = certifiedCheckbox.is(":checked");
+        window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
+        window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+        window.amountCents = window.amount * 100;
         handler.open({
             name: '@noesunaescuela',
             description: window.crowdfundingStats[window.perkCode].description,
             amount: window.amountCents
 
         });
-
+        $("#" + window.containerID).find(".perkWait").show();
 
     } else if (window.perkButtonEnd == true) {
         perkBlocksReset(window.containerID);
@@ -446,19 +597,34 @@ $(".perkCustomButton").click(function(e) {
 //When clicking on perk selection
 $(".perkSelect").click(function() {
     window.containerID = $(this).parents(".perkContenedor").attr("id");
+    window.perkCode = $("#" + window.containerID).attr("name");
+    window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
+    window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
+    window.CERTIFICADO = false;
+    window.URGENTE = false;
     perkAccordion(window.containerID);
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
-
+    $("#" + containerID).find(".specialDelivery").show();
+    $("#" + containerID).find(".specialDelivery").find("input").each(function() {
+        $(this).prop("checked", false);
+    });
+    $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
+    $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", parseFloat(window.crowdfundingStats[window.perkCode].price, 10));
+    $("#" + window.containerID).find(".perkCustomDonationAmount").val(parseFloat(window.crowdfundingStats[window.perkCode].price));
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
-
+        if (raffleInProgress && (parseInt(amount, 10) >= minAmountRaffle)) {
+            $("#" + window.containerID).find(".perkSocial").show();
+        } else {
+            $("#" + window.containerID).find(".perkSocial").hide();
+        }
 
     });
 
     window.amount = $(this).siblings(".perkSend").find(".perkCustomDonationAmount").val();
-    if (parseInt(window.amount, 10) >= 15) {
-        //        $("#" + window.containerID).find(".perkSocial").show();
+    if (raffleInProgress && (parseInt(window.amount, 10) >= minAmountRaffle)) {
+        $("#" + window.containerID).find(".perkSocial").show();
     }
     $("#" + window.containerID).find(".perkToggle").css("pointer-events", "auto");
     $(".perkContenedor").css("height", "auto");
@@ -474,7 +640,10 @@ $(".perkSelect").click(function() {
         easing: "easeInOutSine",
         duration: 500
     });
-
+    $(this).parent().find(".perkPreFlight").show("blind", {
+        easing: "easeInOutSine",
+        duration: 500
+    });
 
 });
 
@@ -487,21 +656,22 @@ function perkBlocksReset(id) {
 
     }
 
-
+    $("#" + id).find(".perkRaffle").hide();
     $("#" + id).find(".perkCustomDonationAmount").hide();
-    //    $("#" + id).find(".perkPreFlight").hide();
+    $("#" + id).find(".perkPreFlight").hide();
     $("#" + id).find(".perkPostFlight").hide();
-    if (parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= 15) {
-
+    if ((parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle) && raffleInProgress) {
+        $("#" + id).find(".perkSocial").show();
     } else {
-
+        $("#" + id).find(".perkSocial").hide();
     }
-
+    $("#" + id).find(".perkNetError").hide();
     $("#" + id).find(".perkCustomButton").html("Seleccionar");
     $("#" + id).find(".perkDelivery").css("border-bottom", "none");
     $("#" + id).find(".perkButton").css("display", "none");
     $("#" + id).find(".perkToggle").css("pointer-events", "none");
     $("#" + id).find(".perkSelect").css("display", "block");
+    $("#" + id).find(".specialDelivery").hide();
 
 }
 
@@ -515,6 +685,7 @@ $(".perkSelect").hover(function() {
 // BUT the one clicked
 function perkAccordion(id) {
     var siblings = $("#" + id).siblings();
+
     siblings.css("border", "none");
     siblings.css("box-shadow", "none");
     siblings.each(function(i) {
@@ -531,7 +702,10 @@ $(window).on('popstate', function() {
 $(document).on("DOMNodeRemoved", ".stripe_checkout_app", close);
 
 function close() {
-
+    //  alert("close stripe");
+    if (window.perkTokenBeenCalled == false) {
+        $(".perkWait").hide();
+    }
 }
 
 //PARSER FUNCTIONS (GET DATA FROM GOOGLE SHEETS SERVER)***************************************************************************************
