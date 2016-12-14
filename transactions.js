@@ -552,6 +552,7 @@ var handler = StripeCheckout.configure({
                 }
                 $("#" + window.containerID).find(".perkNumRaffleShow").html(chain);
                 $("#" + window.containerID).find(".perkWait").hide();
+                $("#" + window.containerID).find(".specialDelivery").hide();
 
                 window.perkTokenBeenCalled = false;
                 window.perkButtonEnd = true;
