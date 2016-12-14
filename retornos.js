@@ -378,13 +378,11 @@ $(".perkRadio").click(function(e) {
     window.containerID = e.currentTarget.attributes._parent.value;
     $("#" + window.containerID).siblings().css("border", "none");
     $("#" + window.containerID).siblings().css("box-shadow", "none");
-
-
-
     $("#" + window.containerID).css("border", "2px solid #AB0096");
     $("#" + window.containerID).css("box-shadow", "2px 2px 8px 1px #766896");
 
-   window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
+    window.perkCode = $("#" + window.containerID).attr("name");
+    window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
     window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
     window.CERTIFICADO = false;
     window.URGENTE = false;
@@ -474,4 +472,3 @@ function mailChimper(params) {
         data: Query
     });
 }
-
