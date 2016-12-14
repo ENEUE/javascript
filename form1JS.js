@@ -75,6 +75,7 @@ var request = $.ajax({
     jsonpCallback: 'updateCustomer',
     contentType: "application/javascript",
     dataType: 'jsonp',
+    jsonp: false,
     data: Query
 });
 $('.perkWait').show();
