@@ -435,6 +435,14 @@ $(window).on('popstate', function() {
     handler.close();
 });
 
+function close() {
+    //  alert("close stripe");
+    if (window.perkTokenBeenCalled == false) {
+        $(".perkWait").hide();
+    }
+}
+
+
 //checks if user has closed stripe window before submit
 $(document).on("DOMNodeRemoved", ".stripe_checkout_app", close);
 
