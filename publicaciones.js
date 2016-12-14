@@ -372,15 +372,34 @@ $(".perkCustomButton").click(function(e) {
 $(".perkPopUp").click(function(e) {
     window.containerID = e.currentTarget.attributes.name.value;
     window.modalID = e.currentTarget.attributes.href.value.replace("#", "");
-
-
-
+    window.perkCode = $("#" + window.containerID).attr("name");
+    window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
+    window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
+    window.CERTIFICADO = false;
+    window.URGENTE = false;
+    perkAccordion(window.containerID);
+    $("#" + containerID).find(".specialDelivery").show();
+    $("#" + containerID).find(".specialDelivery").find("input").each(function() {
+        $(this).prop("checked", false);
+    });
+    $("#" + containerID).find(".specialDelivery").find("input[name=urgent]").attr("disabled", true);
+    $("#" + window.containerID).find(".perkCustomDonationAmount").attr("min", parseFloat(window.crowdfundingStats[window.perkCode].price, 10));
+    $("#" + window.containerID).find(".perkCustomDonationAmount").val(parseFloat(window.crowdfundingStats[window.perkCode].price));
     $("#" + window.containerID).find(".perkCustomDonationAmount").on('input', function() {
         var amount = $(this).val();
+        if (raffleInProgress && (parseInt(amount, 10) >= minAmountRaffle)) {
+            $("#" + window.containerID).find(".perkSocial").show();
+        } else {
+            $("#" + window.containerID).find(".perkSocial").hide();
+        }
+
     });
 
 
     window.amount = $("#" + window.containerID).find(".perkCustomDonationAmount").val();
+    if (raffleInProgress && (parseInt(window.amount, 10) >= minAmountRaffle)) {
+        $("#" + window.containerID).find(".perkSocial").show();
+    }
     $(".perkContenedor").css("height", "auto");
     $("#" + window.containerID).find(".perkCustomButton").html("Continuar");
     $("#" + window.containerID).find(".perkDelivery").css("border-bottom", "dashed 1px lightgrey");
@@ -399,6 +418,19 @@ $(".perkPopUp").click(function(e) {
     });
 
 });
+
+
+
+function perkAccordion(id) {
+    var siblings = $("#" + id).siblings();
+
+    siblings.css("border", "none");
+    siblings.css("box-shadow", "none");
+    siblings.each(function(i) {
+        perkBlocksReset($(this).attr("id"));
+    });
+}
+
 
 //closes modal
 $(".close.perkContenedor").click(function(e) {
