@@ -386,6 +386,7 @@ $(".perkRadio").click(function(e) {
     window.urgentAmount = parseFloat(window.crowdfundingStats[window.perkCode].urgent, 10);
     window.CERTIFICADO = false;
     window.URGENTE = false;
+    perkAccordion(window.containerID);
     $("#" + containerID).find(".specialDelivery").show();
     $("#" + containerID).find(".specialDelivery").find("input").each(function() {
         $(this).prop("checked", false);
@@ -424,10 +425,27 @@ function perkBlocksReset(id) {
     $("#" + id).find(".perkRaffle").hide();
     $("#" + id).find(".perkCustomDonationAmount").hide();
     $("#" + id).find(".perkPostFlight").hide();
+    if ((parseInt($("#" + id).find(".perkCustomDonationAmount").attr("min"), 10) >= minAmountRaffle) && raffleInProgress) {
+        $("#" + id).find(".perkSocial").show();
+    } else {
+        $("#" + id).find(".perkSocial").hide();
+    }
     $("#" + id).find(".perkCustomButton").hide();
     $("#" + id).find(".perkBody").css("border-bottom", "none");
     $("#" + id).find(".perkToggle").css("pointer-events", "none");
+    $("#" + id).find(".specialDelivery").hide();
 
+}
+
+// BUT the one clicked
+function perkAccordion(id) {
+    var siblings = $("#" + id).siblings();
+
+    siblings.css("border", "none");
+    siblings.css("box-shadow", "none");
+    siblings.each(function(i) {
+        perkBlocksReset($(this).attr("id"));
+    });
 }
 
 // Close Checkout on page navigation
