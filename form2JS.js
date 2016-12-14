@@ -1,5 +1,5 @@
 //Declare app url
-var redirectDomain = "https://script.google.com/macros/s/AKfycbzICEw1n1BrsBsCgPMDL1VQ7bS9ka7O49s1pS4zkTLbM4g_CRNr/exec";
+var redirectDomain = "https://script.google.com/macros/s/AKfycbxIrrVG2qI21LBucYxKkGmIwtw6dz2D0sVAtXP1mnslaXH5UcU7/exec";
 //Declare all the response codes in an array
 var responseCodes = ["1F4", "3F8", "5DC", "7D0", "9C4", "BB8", "6D6", "FA0", "DAC"];
 //Declare text contents for html sections
