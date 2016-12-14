@@ -345,7 +345,7 @@ if (raffleInProgress) {
 //*************************************************************CUSTOM FUNCTIONS MAILCHIMPER MAIN*********************************************
 
 function mailChimper(params) {
-    var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
+    var redirectDomain = "https://script.google.com/macros/s/AKfycbwG-vdUup2QUNsU5uH4QjRN9PJyXriwLiXvrwS_YpMQqBY1-8VR/exec";
     var Query = "email_address=" + params.eMail + "&localizer=" + params.localizer + "&amount=" + params.amount + "&perkID=" + params.perkID;
     var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
     var Query = {
@@ -505,7 +505,7 @@ var handler = StripeCheckout.configure({
     allowRememberMe: false,
     token: function(token, args) {
         window.perkTokenBeenCalled = true;
-        var redirectDomain = "https://script.google.com/macros/s/AKfycbwX7W6m3fFvgjRzCwcZkrcTYrfpUK5Q058NCL353pJfAwYmBYw1/exec";
+        var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
         var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode + "&isCertified=" + window.CERTIFICADO + "&isUrgent=" + window.URGENTE;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
         var Query = {
