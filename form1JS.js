@@ -40,7 +40,7 @@ function requiredFields(names, amount, perk) {
 
 }
 //Declare app url
-var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
+var redirectDomain = "https://script.google.com/macros/s/AKfycbzICEw1n1BrsBsCgPMDL1VQ7bS9ka7O49s1pS4zkTLbM4g_CRNr/exec";
 //Declare all the response codes in an array
 var responseCodes = ["1F4", "3F8", "5DC", "7D0", "9C4", "BB8", "6D6", "FA0", "DAC"];
 //Update @query variable with form data
