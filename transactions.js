@@ -303,9 +303,9 @@ if (raffleInProgress) {
             method: 'feed',
             link: 'https://www.facebook.com/estonoesunaescuela/videos/747672688693830/',
             caption: 'Gracias por compartir este vídeo',
-            picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
+            //            picture: 'http://static1.squarespace.com/static/52bc986be4b097881152c8b1/t/56233d89e4b018ac1dfc9edb/1445150089720/imagina.jpg',
             source: 'http://vimeo.com/user25782127/transformemos-la-escuela/',
-            description: 'Hasta el 6 de enero, te obsequiamos con más, por menos'
+            description: 'Hasta el 6 de enero puedes participar en el sorteo de una ilustración original'
         }, (function(parentID) {
             return function(response) {
                 hasBeenShared(response, parentID);
