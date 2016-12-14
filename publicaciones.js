@@ -16,6 +16,10 @@ $('.countdown.styled').countdown({
 });
 //Ajax call invocation to store Crowdfunding Status Data
 getCrowdfundingStats();
+//Minumum amount to participate in Raffle
+var minAmountRaffle = 45;
+//flag to allow for raffle. Set to false to end raffle.
+var raffleInProgress = true;
 
 
 $(document).ready(function() {
