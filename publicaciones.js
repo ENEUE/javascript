@@ -1,4 +1,13 @@
-var endDate = "December 1, 2015 12:00:00";
+/* Author:
+* Diego Gutiérrez Marañón ground.contact@gmail.com
+*
+Rawgit resources:
+
+ Production: https://cdn.rawgit.com/ENEUE/javascript/campaign/publicaciones.js
+ Development: https://rawgit.com/ENEUE/javascript/campaign/publicaciones.js
+*/
+
+var endDate = "January 5, 2017 23:59:59";
 $('.countdown.styled').countdown({
     date: endDate,
     render: function(data) {
