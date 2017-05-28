@@ -9,7 +9,7 @@ Rawgit resources:
 
 //Loads CF data
 var cfstatsHttpResponse = getCrowdfundingStats();
-
+console.log("Se debería ver");
 //resizes youtube player
 
 //Minumum amount to participate in Raffle
