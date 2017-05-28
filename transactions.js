@@ -9,7 +9,6 @@ Rawgit resources:
 
 //Loads CF data
 var cfstatsHttpResponse = getCrowdfundingStats();
-console.log(cfstatsHttpResponse);
 
 //resizes youtube player
 
@@ -40,6 +39,7 @@ function showGauge(min, max, days, val, id) {
 }
 
 $(document).ready(function() {
+    console.log("Document ready");
 
     $("#cfCTA1").css({
         top: '100px'
@@ -817,6 +817,9 @@ function getCrowdfundingStats() {
                 window.crowdfundingStats[title] = contentObject;
             }
             statsInit();
+            console.log("Inicia statsInit() desde getCrowdfundingStats");
+            console.log(cfstatsHttpResponse);
+
         }
     };
     return xmlhttp;
