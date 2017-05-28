@@ -14,8 +14,8 @@ $('.countdown.styled').countdown({
         $(this.el).html("<div><h3>" + this.leadingZeros(data.days, 2) + "</h3><span>días</span></div><div><h3>" + this.leadingZeros(data.hours, 2) + "</h3><span>hrs</span></div><div><h3>" + this.leadingZeros(data.min, 2) + "</h3><span>min</span></div><div><h3>" + this.leadingZeros(data.sec, 2) + "</h3><span>seg</span></div>");
     }
 });
-//Ajax call invocation to store Crowdfunding Status Data
-getCrowdfundingStats();
+//Loads CF data
+var cfstatsHttpResponse = getCrowdfundingStats();
 //Minumum amount to participate in Raffle
 var minAmountRaffle = 45;
 //flag to allow for raffle. Set to false to end raffle.
@@ -23,6 +23,7 @@ var raffleInProgress = false;
 
 
 $(document).ready(function() {
+    statsInit();
     //Flag initialization
     window.perkTokenBeenCalled = false;
     window.perkButtonEnd = false;
@@ -31,47 +32,46 @@ $(document).ready(function() {
     //Hides social networking for raffle
     $(".perkSocial").hide();
 });
-//Ajax call definition that stores Crowdfunding Status Data
+//Get Crowdfunding Data from Google Sheets Json
 function getCrowdfundingStats() {
     var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
-    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic';
-    var query = {
-        alt: "json"
-    };
+    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic?alt=json';
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    //Main function. Retrieves JSON feed, checks status from server, displays and formats the contents
+    xmlhttp.onreadystatechange = function() {
 
-    var request = $.ajax({
-        type: 'get',
-        url: url,
-        contentType: "application/json",
-        dataType: 'json',
-        data: query,
-        async: true
-    });
-    request.done(function(resultJson) {
-        window.crowdfundingStats = new Object();
-        //Loops through all the elements in myArr.feed.entry (entry is the container of data)
-        var long = resultJson.feed.entry.length;
-        for (var i = 0; i < long; i++) {
-            var content = resultJson.feed.entry[i].content.$t;
-            var title = resultJson.feed.entry[i].title.$t;
-            var contentArray = content.split(",");
-            var contentObject = new Object();
-            var contentArrayLength = contentArray.length;
-            for (var k = 0; k < contentArrayLength; k++) {
-                var division = contentArray[k];
-                var divisionArray = division.split(":");
-                var firstChunk = divisionArray[0];
-                var secondChunk = divisionArray[1];
-                contentObject[firstChunk.trim()] = secondChunk.trim();
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var resultJson = JSON.parse(xmlhttp.responseText);
+            var out = "";
+            window.crowdfundingStats = new Object();
+            //Loops through all the elements in myArr.feed.entry (entry is the container of data)
+            var long = resultJson.feed.entry.length;
+            for (var i = 0; i < long; i++) {
+                var content = resultJson.feed.entry[i].content.$t;
+                var title = resultJson.feed.entry[i].title.$t;
+                var contentArray = content.split(",");
+                var contentObject = new Object();
+                var contentArrayLength = contentArray.length;
+                for (var k = 0; k < contentArrayLength; k++) {
+                    var division = contentArray[k];
+                    var divisionArray = division.split(":");
+                    var firstChunk = divisionArray[0];
+                    var secondChunk = divisionArray[1];
+                    contentObject[firstChunk.trim()] = secondChunk.trim();
+                }
+                window.crowdfundingStats[title] = contentObject;
             }
-            window.crowdfundingStats[title] = contentObject;
+            statsInit();
         }
-
-    });
+    };
+    return xmlhttp;
+}
 
 }
 //Ajax Success function. Runs when Ajax has completed and thrown positive outcome
-$(document).ajaxSuccess(function(evnt, xhr, settings) {
+$function statsInit(){
 
     $("#cfStatsAchieved1").html(window.crowdfundingStats.TOTALS.totalincome);
     $("#cfStatsSupporters1").html(window.crowdfundingStats.TOTALS.solditems);
@@ -98,8 +98,7 @@ $(document).ajaxSuccess(function(evnt, xhr, settings) {
             $("#" + "div" + toTitleCase(prop) + "customDonationAmount").attr("placeholder", "p.ej. €" + placeHolder);
         }
     }
-    //$("#remaining_amount").html(8000 - window.crowdfundingStats.TOTALS.totalincome);
-});
+};
 
 
 //****************************************************SOCIAL SHARING INITIALIZATION************************************************************
