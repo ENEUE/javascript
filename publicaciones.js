@@ -19,7 +19,7 @@ getCrowdfundingStats();
 //Minumum amount to participate in Raffle
 var minAmountRaffle = 45;
 //flag to allow for raffle. Set to false to end raffle.
-var raffleInProgress = true;
+var raffleInProgress = false;
 
 
 $(document).ready(function() {
