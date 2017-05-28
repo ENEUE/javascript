@@ -7,6 +7,9 @@ Rawgit resources:
  Development: https://rawgit.com/ENEUE/javascript/campaign/transactions.min.js
 */
 
+//Loads CF data
+var cfstatsHttpResponse = getCrowdfundingStats();
+
 
 //resizes youtube player
 
@@ -780,3 +783,43 @@ $.ajax({
     crossDomain: true,
     url: url_gauge
 });
+
+//Get Crowdfunding Data from Google Sheets Json
+function getCrowdfundingStats() {
+    var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
+    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic?alt=json';
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    return xmlhttp;
+    //Main function. Retrieves JSON feed, checks status from server, displays and formats the contents
+    xmlhttp.onreadystatechange = function() {
+
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {     
+           var resultJson = JSON.parse(xmlhttp.responseText);
+            var out = "";
+            window.crowdfundingStats = new Object();
+            //Loops through all the elements in myArr.feed.entry (entry is the container of data)
+            var long = resultJson.feed.entry.length;
+            for (var i = 0; i < long; i++) {
+                var content = resultJson.feed.entry[i].content.$t;
+                var title = resultJson.feed.entry[i].title.$t;
+                var contentArray = content.split(",");
+                var contentObject = new Object();
+                var contentArrayLength = contentArray.length;
+                for (var k = 0; k < contentArrayLength; k++) {
+                    var division = contentArray[k];
+                    var divisionArray = division.split(":");
+                    var firstChunk = divisionArray[0];
+                    var secondChunk = divisionArray[1];
+                    contentObject[firstChunk.trim()] = secondChunk.trim();
+                }
+                window.crowdfundingStats[title] = contentObject;
+            }
+            statsInit();
+        }
+    };
+    return xmlhttp;
+}
+
+
