@@ -786,12 +786,12 @@ $.ajax({
 
 //Get Crowdfunding Data from Google Sheets Json
 function getCrowdfundingStats() {
+    console.log("Entra en getCrowdfundingStats");
     var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
     var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic?alt=json';
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
-    return xmlhttp;
     //Main function. Retrieves JSON feed, checks status from server, displays and formats the contents
     xmlhttp.onreadystatechange = function() {
 
