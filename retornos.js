@@ -283,7 +283,7 @@ var handler = StripeCheckout.configure({
         var redirectDomain = "https://script.google.com/macros/s/AKfycbywnXbEp_nIPvClMVyEgw_YK_IhHgqnAs9-N-sYVjufx1jPCLw/exec";
         var Query = "stripeEmail=" + token.email + "&stripeToken=" + token.id + "&amount=" + window.amountCents + "&itemID=" + window.perkCode + "&beenShared=" + window.beenShared + "&islive=" + token.livemode + "&isCertified=" + window.CERTIFICADO + "&isUrgent=" + window.URGENTE;
         var eQuery = window.btoa(unescape(encodeURIComponent(Query)));
-         var Query = {
+        var Query = {
             e: eQuery
         };
         var request = $.ajax({

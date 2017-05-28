@@ -71,7 +71,7 @@ function getCrowdfundingStats() {
 
 }
 //Ajax Success function. Runs when Ajax has completed and thrown positive outcome
-$function statsInit(){
+$function statsInit() {
 
     $("#cfStatsAchieved1").html(window.crowdfundingStats.TOTALS.totalincome);
     $("#cfStatsSupporters1").html(window.crowdfundingStats.TOTALS.solditems);
