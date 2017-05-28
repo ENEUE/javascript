@@ -1,0 +1,107 @@
+<!--Facebook open graph--->
+<!--carousel styling--->
+<link rel="stylesheet" type="text/css" href="https://estonoesunaescuela.squarespace.com/s/slick.css" />
+<link rel="stylesheet" type="text/css" href="https://estonoesunaescuela.squarespace.com/s/slick-theme.css" />
+<script src="js/libs/modernizr-2.0.6.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script>
+//Makes an ajax call to server and retrieves variables to display
+//*******************************************IMPORTANT!!!   PLACE ON TOP OF HTML PAGE SO AS TO LOAD FIRST BEFORE DOCUMENT READY
+//window.statsLoaded = false;*/
+getCrowdfundingStats();
+youTubeCF();
+
+//Main ajaxSuccess function
+
+//Get Crowdfunding Data from Google Sheets Json
+function getCrowdfundingStats() {
+    var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
+    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic?alt=json';
+    //var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic';
+    /*	var query = {
+    		alt : "json"
+    	};*/
+    var xmlhttp = new XMLHttpRequest();
+/*    var request = $.ajax({
+        type: 'get',
+        url: url,
+        contentType: "application/json",
+        dataType: 'json',
+        data: query,
+        async: true
+    });*/
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    //Main function. Retrieves JSON feed, checks status from server, displays and formats the contents
+    xmlhttp.onreadystatechange = function() {
+
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+           var resultJson = JSON.parse(xmlhttp.responseText);
+            var out = "";
+ 
+  //  request.done(function(resultJson) {
+        window.crowdfundingStats = new Object();
+        //Loops through all the elements in myArr.feed.entry (entry is the container of data)
+        var long = resultJson.feed.entry.length;
+        for (var i = 0; i < long; i++) {
+            var content = resultJson.feed.entry[i].content.$t;
+            var title = resultJson.feed.entry[i].title.$t;
+            var contentArray = content.split(",");
+            var contentObject = new Object();
+            var contentArrayLength = contentArray.length;
+            for (var k = 0; k < contentArrayLength; k++) {
+                var division = contentArray[k];
+                var divisionArray = division.split(":");
+                var firstChunk = divisionArray[0];
+                var secondChunk = divisionArray[1];
+                contentObject[firstChunk.trim()] = secondChunk.trim();
+            }
+            window.crowdfundingStats[title] = contentObject;
+        }
+}
+//    });
+	};
+}
+
+function youTubeCF() {
+    // 2. This code loads the IFrame Player API code asynchronously.-->
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/player_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    // 3. This function creates an <iframe> (and YouTube player)
+    //    after the API code downloads.
+    var player;
+
+    // 4. The API will call this function when the video player is ready.
+}
+
+function onYouTubePlayerAPIReady() {
+    player = new YT.Player('cfPlayer1', {
+        playerVars: {
+            'autoplay': 1,
+            'controls': 1,
+            'autohide': 1,
+            'wmode': 'opaque'
+        },
+        videoId: 'J-FNiSH1Mhg',
+        loop: 1,
+        events: {
+            'onReady': onPlayerReady
+        }
+    });
+}
+
+function onPlayerReady(event) {
+
+    event.target.mute();
+    if (window.ytfwidth > 720) {
+        event.target.setPlaybackQuality('hd720');
+
+    } else {
+        event.target.setPlaybackQuality('480');
+    }
+}
+</script>
