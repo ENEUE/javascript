@@ -9,13 +9,12 @@ Rawgit resources:
 
 //Loads CF data
 var cfstatsHttpResponse = getCrowdfundingStats();
-console.log("Se debería ver");
 //resizes youtube player
 
 //Minumum amount to participate in Raffle
 var minAmountRaffle = 45;
 //flag to allow for raffle. Set to false to end raffle.
-var raffleInProgress = true;
+var raffleInProgress = false;
 
 function youTubeResize(idFrame, widthContainer) {
     $("#" + idFrame).width(widthContainer);
@@ -39,7 +38,7 @@ function showGauge(min, max, days, val, id) {
 }
 
 $(document).ready(function() {
-    console.log("Document ready");
+    statsInit();
 
     $("#cfCTA1").css({
         top: '100px'
@@ -786,7 +785,6 @@ $.ajax({
 
 //Get Crowdfunding Data from Google Sheets Json
 function getCrowdfundingStats() {
-    console.log("Entra en getCrowdfundingStats");
     var spreadsheetID = '1EFRGuZXSTLaGgTqG0Md7DTICMjXBH_2FSGmWIKsP7kg';
     var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/basic?alt=json';
     var xmlhttp = new XMLHttpRequest();
@@ -795,8 +793,8 @@ function getCrowdfundingStats() {
     //Main function. Retrieves JSON feed, checks status from server, displays and formats the contents
     xmlhttp.onreadystatechange = function() {
 
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {     
-           var resultJson = JSON.parse(xmlhttp.responseText);
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var resultJson = JSON.parse(xmlhttp.responseText);
             var out = "";
             window.crowdfundingStats = new Object();
             //Loops through all the elements in myArr.feed.entry (entry is the container of data)
@@ -817,12 +815,7 @@ function getCrowdfundingStats() {
                 window.crowdfundingStats[title] = contentObject;
             }
             statsInit();
-            console.log("Inicia statsInit() desde getCrowdfundingStats");
-            console.log(cfstatsHttpResponse);
-
         }
     };
     return xmlhttp;
 }
-
-
