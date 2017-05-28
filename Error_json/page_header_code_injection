@@ -11,7 +11,7 @@
 //window.statsLoaded = false;*/
 getCrowdfundingStats();
 youTubeCF();
-
+//
 //Main ajaxSuccess function
 
 //Get Crowdfunding Data from Google Sheets Json
