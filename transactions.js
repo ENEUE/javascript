@@ -9,7 +9,7 @@ Rawgit resources:
 
 //Loads CF data
 var cfstatsHttpResponse = getCrowdfundingStats();
-
+console.log(cfstatsHttpResponse);
 
 //resizes youtube player
 
