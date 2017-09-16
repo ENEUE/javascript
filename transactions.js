@@ -568,11 +568,17 @@ var handler = StripeCheckout.configure({
 $(".perkCustomButton").click(function(e) {
     console.log("Button clicked!");
     $("#" + window.containerID).find(".perkSocial").hide();
+    console.log("reaches A");
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
+    console.log("reaches B");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
+    console.log("reaches C");
     var urgentCheckbox = checkBoxes.find("input[name=urgent]");
+    console.log("reaches D");
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
+    console.log("reaches E");
     var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
+    console.log("reaches F");
 
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         $("#" + inputBoxId).val(inputBoxMin);
