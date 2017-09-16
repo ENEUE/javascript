@@ -601,6 +601,7 @@ $(".perkCustomButton").click(function(e) {
 
 //When clicking on perk selection
 $(".perkSelect").click(function() {
+    console.log("Panel selected!");
     window.containerID = $(this).parents(".perkContenedor").attr("id");
     window.perkCode = $("#" + window.containerID).attr("name");
     window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
