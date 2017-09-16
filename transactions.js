@@ -38,10 +38,6 @@ function showGauge(min, max, days, val, id) {
 }
 
 $(document).ready(function() {
-        console.log("starts document ready");
-
-    //statsInit();
-    console.log("Reaches after statsInit");
     $("#cfCTA1").css({
         top: '100px'
     });
@@ -65,7 +61,6 @@ $(document).ready(function() {
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
-    console.log("Reaches before flag initialization");
 
     //Flag initialization
     window.perkTokenBeenCalled = false;
@@ -73,9 +68,7 @@ $(document).ready(function() {
     window.beenShared = false;
     window.perkToggleState = null;
     //Hides social networking for raffle
-    console.log("Reaches after flag initialization");
     $(".perkSocial").hide();
-    console.log("Reaches end of document ready");
 });
 
 //Ajax Success Main function
@@ -499,7 +492,7 @@ function closeWaitDiv(id) {
 
 //Declares the Stripe Checkout Handler and configures it
 var handler = StripeCheckout.configure({
-    key: 'pk_test_AfqpiD3DBLtXD8u39JwGErf8',
+    key: 'pk_live_uWo17rHYl0BXyyKmoMtHM3aS',
     //***************************************************************IMPORTANT!!!!!!!------CHECK IMAGE STORAGE AND PARAMETERS FOR CHECKOUT**********
     image: 'https://estonoesunaescuela.squarespace.com/s/anagrama_peq_color_whitebckgrnd_small.png',
     locale: 'auto',
@@ -526,8 +519,6 @@ var handler = StripeCheckout.configure({
             data: Query
         });
         request.done(function(resultJson) {
-            console.log("request done!");
-            console.log(resultJson);
             $("#" + window.containerID).find(".perkRaffle").hide(); //Social Sharing and Raffle
             $("#" + window.containerID).find(".perkCustomDonationAmount").hide();
             $("#" + window.containerID).find(".perkPreFlight").hide();
@@ -571,39 +562,21 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
-    console.log("Button clicked!");
     $("#" + window.containerID).find(".perkSocial").hide();
-    console.log("reaches A");
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
-    console.log("reaches B");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
-    console.log("reaches C");
     var urgentCheckbox = checkBoxes.find("input[name=urgent]");
-    console.log("reaches D");
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
-    console.log("reaches E");
     var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
-    console.log("reaches F");
-    console.log($("#" + inputBoxId).val());
-    console.log(parseInt($("#" + inputBoxId).val(), 10));
-    console.log(inputBoxMin);
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
-        console.log("enters first if");
         $("#" + inputBoxId).val(inputBoxMin);
     }
-    console.log(window.perkButtonEnd);
     if (window.perkButtonEnd == false) {
-        console.log("enters second if");
-
-        console.log("About to call handler");
         window.isCertified = certifiedCheckbox.is(":checked");
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
         window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
-        console.log($("#" + window.containerID).find(".perkCustomDonationAmount").val());
-        console.log(window.amount);
         window.amountCents = window.amount * 100;
-        console.log(window.amountCents);
         handler.open({
             name: '@noesunaescuela',
             description: window.crowdfundingStats[window.perkCode].description,
@@ -613,17 +586,13 @@ $(".perkCustomButton").click(function(e) {
         $("#" + window.containerID).find(".perkWait").show();
 
     } else if (window.perkButtonEnd == true) {
-                console.log("enters else if");
-
         perkBlocksReset(window.containerID);
         window.perkButtonEnd = false;
     }
-    console.log("reaches end");
 });
 
 //When clicking on perk selection
 $(".perkSelect").click(function() {
-    console.log("Panel selected!"); 
     window.containerID = $(this).parents(".perkContenedor").attr("id");
     window.perkCode = $("#" + window.containerID).attr("name");
     window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
@@ -840,7 +809,6 @@ function getCrowdfundingStats() {
                 }
                 window.crowdfundingStats[title] = contentObject;
             }
-            console.log(window.crowdfundingStats);
             statsInit();
         }
     };
