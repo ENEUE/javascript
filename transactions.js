@@ -38,8 +38,10 @@ function showGauge(min, max, days, val, id) {
 }
 
 $(document).ready(function() {
-    statsInit();
+        console.log("starts document ready");
 
+    statsInit();
+    console.log("Reaches after statsInit");
     $("#cfCTA1").css({
         top: '100px'
     });
@@ -63,6 +65,7 @@ $(document).ready(function() {
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
+    console.log("Reaches before flag initialization");
 
     //Flag initialization
     window.perkTokenBeenCalled = false;
@@ -70,7 +73,9 @@ $(document).ready(function() {
     window.beenShared = false;
     window.perkToggleState = null;
     //Hides social networking for raffle
+    console.log("Reaches after flag initialization");
     $(".perkSocial").hide();
+    console.log("Reaches end of document ready");
 });
 
 //Ajax Success Main function
