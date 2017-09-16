@@ -584,7 +584,10 @@ $(".perkCustomButton").click(function(e) {
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
         window.amount = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").val(), 10);
+        console.log($("#" + window.containerID).find(".perkCustomDonationAmount").val());
+        console.log(window.amount);
         window.amountCents = window.amount * 100;
+        console.log(window.amountCents);
         handler.open({
             name: '@noesunaescuela',
             description: window.crowdfundingStats[window.perkCode].description,
@@ -601,7 +604,7 @@ $(".perkCustomButton").click(function(e) {
 
 //When clicking on perk selection
 $(".perkSelect").click(function() {
-    console.log("Panel selected!");
+    console.log("Panel selected!"); 
     window.containerID = $(this).parents(".perkContenedor").attr("id");
     window.perkCode = $("#" + window.containerID).attr("name");
     window.certifiedAmount = parseFloat(window.crowdfundingStats[window.perkCode].certified, 10);
