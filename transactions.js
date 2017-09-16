@@ -209,7 +209,6 @@ function budgetSuccess(xhr) {
 }
 
 function statsInit() {
-    window.statsLoaded = true;
     //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
     showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
 
@@ -814,6 +813,7 @@ function getCrowdfundingStats() {
                 }
                 window.crowdfundingStats[title] = contentObject;
             }
+            console.log(window.crowdfundingStats);
             statsInit();
         }
     };
