@@ -17,7 +17,6 @@ var minAmountRaffle = 45;
 var raffleInProgress = false;
 
 $(document).ready(function() {
-    statsInit();
     $("#cfFAQs1").accordion({
         heightStyle: "content",
         collapsible: true,

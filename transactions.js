@@ -38,8 +38,6 @@ function showGauge(min, max, days, val, id) {
 }
 
 $(document).ready(function() {
-    statsInit();
-    console.log("gets in document ready");
     $("#cfCTA1").css({
         top: '100px'
     });
@@ -215,7 +213,6 @@ function budgetSuccess(xhr) {
 }
 
 function statsInit() {
-    window.statsLoaded = true;
     //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
     showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
 
@@ -577,11 +574,9 @@ $(".perkCustomButton").click(function(e) {
     var urgentCheckbox = checkBoxes.find("input[name=urgent]");
     var inputBoxId = $("#" + window.containerID).find(".perkCustomDonationAmount").attr("id");
     var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
-
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         $("#" + inputBoxId).val(inputBoxMin);
     }
-
     if (window.perkButtonEnd == false) {
         window.isCertified = certifiedCheckbox.is(":checked");
         window.isUrgent = urgentCheckbox.is(":checked");
