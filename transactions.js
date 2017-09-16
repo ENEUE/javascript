@@ -521,6 +521,8 @@ var handler = StripeCheckout.configure({
             data: Query
         });
         request.done(function(resultJson) {
+            console.log("request done!");
+            console.log(resultJson);
             $("#" + window.containerID).find(".perkRaffle").hide(); //Social Sharing and Raffle
             $("#" + window.containerID).find(".perkCustomDonationAmount").hide();
             $("#" + window.containerID).find(".perkPreFlight").hide();
@@ -564,6 +566,7 @@ var handler = StripeCheckout.configure({
 
 //Calls Stripe Checkout for ANY PERK
 $(".perkCustomButton").click(function(e) {
+    console.log("Button clicked!");
     $("#" + window.containerID).find(".perkSocial").hide();
     var checkBoxes = $("#" + containerID).find(".specialDelivery");
     var certifiedCheckbox = checkBoxes.find("input[name=certified]");
@@ -576,6 +579,7 @@ $(".perkCustomButton").click(function(e) {
     }
 
     if (window.perkButtonEnd == false) {
+        console.log("About to call handler");
         window.isCertified = certifiedCheckbox.is(":checked");
         window.isUrgent = urgentCheckbox.is(":checked");
         window.perkCode = $("#" + window.containerID).attr("name");
