@@ -581,8 +581,8 @@ $(".perkCustomButton").click(function(e) {
     console.log("reaches F");
 
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
-        $("#" + inputBoxId).val(inputBoxMin);
         console.log("enters first if");
+        $("#" + inputBoxId).val(inputBoxMin);
     }
 
     if (window.perkButtonEnd == false) {
@@ -611,6 +611,7 @@ $(".perkCustomButton").click(function(e) {
         perkBlocksReset(window.containerID);
         window.perkButtonEnd = false;
     }
+    console.log("reaches end");
 });
 
 //When clicking on perk selection
