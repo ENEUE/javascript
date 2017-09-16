@@ -23,7 +23,6 @@ var raffleInProgress = false;
 
 
 $(document).ready(function() {
-    statsInit();
     //Flag initialization
     window.perkTokenBeenCalled = false;
     window.perkButtonEnd = false;
