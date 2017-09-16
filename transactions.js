@@ -576,9 +576,12 @@ $(".perkCustomButton").click(function(e) {
 
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         $("#" + inputBoxId).val(inputBoxMin);
+        console.log("enters first if");
     }
 
     if (window.perkButtonEnd == false) {
+        console.log("enters second if");
+
         console.log("About to call handler");
         window.isCertified = certifiedCheckbox.is(":checked");
         window.isUrgent = urgentCheckbox.is(":checked");
@@ -597,6 +600,8 @@ $(".perkCustomButton").click(function(e) {
         $("#" + window.containerID).find(".perkWait").show();
 
     } else if (window.perkButtonEnd == true) {
+                console.log("enters else if");
+
         perkBlocksReset(window.containerID);
         window.perkButtonEnd = false;
     }
