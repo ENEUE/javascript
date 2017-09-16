@@ -39,7 +39,7 @@ function showGauge(min, max, days, val, id) {
 
 $(document).ready(function() {
     statsInit();
-
+    console.log("gets in document ready");
     $("#cfCTA1").css({
         top: '100px'
     });
@@ -65,12 +65,18 @@ $(document).ready(function() {
     })();
 
     //Flag initialization
+        console.log("before initialization of flags");
+
     window.perkTokenBeenCalled = false;
     window.perkButtonEnd = false;
     window.beenShared = false;
     window.perkToggleState = null;
+
+    console.log("after initialization of flags");
     //Hides social networking for raffle
     $(".perkSocial").hide();
+        console.log("after perkSocial hide");
+
 });
 
 //Ajax Success Main function
