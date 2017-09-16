@@ -579,12 +579,14 @@ $(".perkCustomButton").click(function(e) {
     console.log("reaches E");
     var inputBoxMin = parseFloat($("#" + window.containerID).find(".perkCustomDonationAmount").attr("min"), 10);
     console.log("reaches F");
-
+    console.log($("#" + inputBoxId).val());
+    console.log(parseInt($("#" + inputBoxId).val(), 10));
+    console.log(inputBoxMin);
     if (parseInt($("#" + inputBoxId).val(), 10) < inputBoxMin) {
         console.log("enters first if");
         $("#" + inputBoxId).val(inputBoxMin);
     }
-
+    console.log(window.perkButtonEnd);
     if (window.perkButtonEnd == false) {
         console.log("enters second if");
 
