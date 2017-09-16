@@ -40,7 +40,7 @@ function showGauge(min, max, days, val, id) {
 $(document).ready(function() {
         console.log("starts document ready");
 
-    statsInit();
+    //statsInit();
     console.log("Reaches after statsInit");
     $("#cfCTA1").css({
         top: '100px'
