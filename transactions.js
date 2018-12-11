@@ -214,11 +214,11 @@ function budgetSuccess(xhr) {
 
 function statsInit() {
     //Assigns global variables to the different values retrieved from stats server. This includes all the details to be shown on page load
-    showGauge(0, window.crowdfundingStats.TOTALS.optimal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
+    showGauge(0, window.crowdfundingStats.TOTALS.ideal, window.crowdfundingStats.TOTALS.daysleft, window.crowdfundingStats.TOTALS.totalincome, "perks-gauge1");
 
     $("#cfStatsAchieved1").html(window.crowdfundingStats.TOTALS.totalincome);
     $("#cfStatsSupporters1").html(window.crowdfundingStats.TOTALS.solditems);
-    $("#cfStatsNeeded1").html(parseInt(window.crowdfundingStats.TOTALS.optimal));
+    $("#cfStatsNeeded1").html(parseInt(window.crowdfundingStats.TOTALS.ideal));
     $("#cfStatsDaysLeft1").html(window.crowdfundingStats.TOTALS.daysleft);
     for (var prop in window.crowdfundingStats) {
         //window.crowdfundingStats is an object that contains the server response
